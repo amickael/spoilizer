@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider, ColorModeProvider, CSSReset } from '@chakra-ui/core';
+import {
+    Stack,
+    ThemeProvider,
+    ColorModeProvider,
+    CSSReset,
+} from '@chakra-ui/core';
 import App from './App';
+import { Footer } from './features';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -9,7 +15,10 @@ ReactDOM.render(
         <ThemeProvider>
             <ColorModeProvider>
                 <CSSReset />
-                <App />
+                <Stack minHeight="100vh" justify="space-between">
+                    <App />
+                    <Footer />
+                </Stack>
             </ColorModeProvider>
         </ThemeProvider>
     </React.StrictMode>,

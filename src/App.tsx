@@ -23,8 +23,8 @@ const App = () => {
             <Flex
                 align="center"
                 justify="center"
-                marginTop="25vh"
                 direction="column"
+                paddingTop="25vh"
             >
                 <Upload onSuccess={setSpoilerLog} onError={handleError}>
                     Upload Spoiler Log
@@ -34,7 +34,7 @@ const App = () => {
     }
 
     return (
-        <Flex padding="1em">
+        <Flex padding="1em" direction="column">
             <Dashboard
                 spoilerLog={spoilerLog}
                 onReset={() => setSpoilerLog(undefined)}

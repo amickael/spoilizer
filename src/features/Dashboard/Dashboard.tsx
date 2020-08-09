@@ -59,20 +59,20 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
             >
                 <Tabs width="100%">
                     <TabList>
-                        <Tab>Locations</Tab>
-                        <Tab>Essentials</Tab>
+                        <Tab>All Items</Tab>
+                        <Tab>Way of the Hero</Tab>
                         <Tab>Playthrough</Tab>
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
                             <SpoilerList
-                                title="All items"
+                                title="All Items"
                                 spoilerList={spoilerLog.locations}
                             />
                         </TabPanel>
                         <TabPanel>
                             <SpoilerList
-                                title="Essential items"
+                                title="Way of the Hero"
                                 spoilerList={spoilerLog.essentials}
                             />
                         </TabPanel>
@@ -80,7 +80,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             {spoilerLog.playthrough.map((step, i) => (
                                 <Box key={i} paddingY="0.5em">
                                     <SpoilerList
-                                        title={`Step ${step.stepNum}`}
+                                        title={`Sphere ${step.stepNum}`}
                                         spoilerList={step.items}
                                         hideSearch
                                     />
