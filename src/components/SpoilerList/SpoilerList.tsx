@@ -33,7 +33,7 @@ const SpoilerList = ({
                 [...spoilerList].filter((spoiler) =>
                     spoiler.item.item
                         .toLowerCase()
-                        .startsWith(searchText.toLowerCase())
+                        .includes(searchText.toLowerCase())
                 )
             );
         }
