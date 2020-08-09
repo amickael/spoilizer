@@ -33,8 +33,6 @@ const App = () => {
         );
     }
 
-    console.log(spoilerLog);
-
     return (
         <Flex padding="1em">
             <Dashboard
