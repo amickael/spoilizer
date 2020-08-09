@@ -7,8 +7,8 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider>
-            <CSSReset />
             <ColorModeProvider>
+                <CSSReset />
                 <App />
             </ColorModeProvider>
         </ThemeProvider>

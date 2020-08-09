@@ -17,7 +17,6 @@
     "emotion-theming": "^10.0.27",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-dropzone": "^11.0.2",
     "react-scripts": "3.4.1",
     "typescript": "^3.9.7",
     "yup": "^0.29.3"
