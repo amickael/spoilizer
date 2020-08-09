@@ -27,8 +27,8 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
             borderColor={borderColor[colorMode]}
             borderWidth={1}
         >
+            <Heading size="sm">{spoiler.item.item}</Heading>
             <Text>{spoiler.location}</Text>
-            <Heading size="md">{spoiler.item.item}</Heading>
             <Stack isInline>
                 {!!spoiler.item.price && (
                     <Tooltip
@@ -37,7 +37,7 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
                         placement="top"
                         hasArrow
                     >
-                        <Badge variantColor="green">
+                        <Badge variantColor="green" marginRight="0.5em">
                             <i className="fas fa-gem" />
                             &nbsp;{spoiler.item.price}
                         </Badge>
