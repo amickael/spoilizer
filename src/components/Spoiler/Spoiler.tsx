@@ -15,7 +15,7 @@ interface SpoilerProps {
 
 const Spoiler = ({ spoiler }: SpoilerProps) => {
     const { colorMode } = useColorMode(),
-        bgColor = { dark: 'gray.900', light: 'gray.50' },
+        bgColor = { dark: 'gray.900', light: 'gray.100' },
         borderColor = { dark: 'gray.600', light: 'gray.200' };
 
     return (

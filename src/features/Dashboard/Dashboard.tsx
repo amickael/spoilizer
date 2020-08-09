@@ -23,7 +23,7 @@ interface DashboardProps {
 
 const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
     const { colorMode } = useColorMode(),
-        bgColor = { dark: 'gray.700', light: 'gray.100' };
+        bgColor = { dark: 'gray.700', light: 'gray.50' };
 
     return (
         <Flex width="100%" direction="column">
