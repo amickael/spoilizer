@@ -26,6 +26,8 @@ export const spoiler = yup.lazy((value) => {
         }
     }),
     logSchema = yup.object().shape({
+        ':seed': yup.string(),
+        ':settings_string': yup.string(),
         locations: spoiler,
         ':woth_locations': spoiler,
         ':playthrough': yup.lazy((value) => {
@@ -46,13 +48,13 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
         locations = Object.entries(source?.locations ?? {}).map(
             ([location, item]) => ({
                 location,
-                item,
+                item: typeof item === 'string' ? { item: item } : item,
             })
         ),
         essentials = Object.entries(source?.[':woth_locations'] ?? {}).map(
             ([location, item]) => ({
                 location,
-                item,
+                item: typeof item === 'string' ? { item: item } : item,
             })
         ),
         playthrough = Object.entries(source?.[':playthrough']).map(
@@ -61,13 +63,15 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
                 items: Object.entries(spoiler as object).map(
                     ([location, item]) => ({
                         location,
-                        item,
+                        item: typeof item === 'string' ? { item: item } : item,
                     })
                 ),
             })
         );
 
     return {
+        seed: source?.[':seed'] ?? '',
+        settings: source?.[':settings_string'] ?? '',
         locations: locations as Spoiler[],
         essentials: essentials as Spoiler[],
         playthrough,

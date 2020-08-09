@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { Button } from '@chakra-ui/core';
+import React, { useState, useRef } from 'react';
+import { Button, CircularProgress, Icon, Link, Stack } from '@chakra-ui/core';
 import { parseLog } from '../../utils/parseLog';
 import { SpoilerLog } from '../../types/spoilerLog';
 
@@ -14,7 +14,8 @@ const Upload = ({
     onSuccess = () => null,
     onError = () => null,
 }: UploadProps) => {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null),
+        [isLoading, setIsLoading] = useState(false);
 
     const handleClick = () => {
             ((inputRef.current as unknown) as HTMLElement).click();
@@ -23,6 +24,7 @@ const Upload = ({
             const uploadedFile = (e.target.files ?? [])?.[0],
                 reader = new FileReader();
 
+            setIsLoading(true);
             reader.readAsText(uploadedFile);
             reader.onload = () => {
                 try {
@@ -30,12 +32,18 @@ const Upload = ({
                     parseLog(result).then(onSuccess).catch(onError);
                 } catch (e) {
                     onError();
+                } finally {
+                    setIsLoading(false);
                 }
             };
         };
 
+    if (isLoading) {
+        return <CircularProgress size="500%" isIndeterminate color="green" />;
+    }
+
     return (
-        <React.Fragment>
+        <Stack align="center">
             <input
                 ref={inputRef}
                 type="file"
@@ -48,7 +56,14 @@ const Upload = ({
                 &nbsp;
                 {children}
             </Button>
-        </React.Fragment>
+            <Link
+                href="https://wiki.ootrandomizer.com/index.php?title=Frequently_Asked_Questions#How_Do_I_Find_My_Spoiler_Log_Again.3F"
+                isExternal
+                marginTop="0.5em"
+            >
+                Where do I find this? <Icon name="external-link" mx="2px" />
+            </Link>
+        </Stack>
     );
 };
 

@@ -1,6 +1,6 @@
 export interface Spoiler {
     location: string;
-    item: string | { item: string; price?: number; model?: string };
+    item: { item: string; price?: number; model?: string };
 }
 
 export interface PlaythroughStep {
@@ -9,6 +9,8 @@ export interface PlaythroughStep {
 }
 
 export interface SpoilerLog {
+    seed: string;
+    settings: string;
     locations: Spoiler[];
     essentials: Spoiler[];
     playthrough: PlaythroughStep[];

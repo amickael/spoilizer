@@ -1,32 +1,48 @@
 import React, { useState } from 'react';
-import { Flex, Link, Icon } from '@chakra-ui/core';
+import { Flex, useToast } from '@chakra-ui/core';
 import { SpoilerLog } from './types/spoilerLog';
-import { Upload } from './features/Upload';
+import { Upload, Dashboard } from './features';
 
 const App = () => {
-    const [spoilerLog, setSpoilerLog] = useState<SpoilerLog>();
+    const [spoilerLog, setSpoilerLog] = useState<SpoilerLog>(),
+        toast = useToast();
+
+    const handleError = () => {
+        toast({
+            title: 'Invalid format',
+            description: 'JSON file is not a valid spoiler log format',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top',
+        });
+    };
 
     if (!spoilerLog) {
         return (
             <Flex
                 align="center"
                 justify="center"
-                padding="5em"
+                marginTop="25vh"
                 direction="column"
             >
-                <Upload onSuccess={setSpoilerLog}>Upload Spoiler Log</Upload>
-                <Link
-                    href="https://wiki.ootrandomizer.com/index.php?title=Frequently_Asked_Questions#How_Do_I_Find_My_Spoiler_Log_Again.3F"
-                    isExternal
-                    marginTop="0.5em"
-                >
-                    Where do I find this? <Icon name="external-link" mx="2px" />
-                </Link>
+                <Upload onSuccess={setSpoilerLog} onError={handleError}>
+                    Upload Spoiler Log
+                </Upload>
             </Flex>
         );
     }
 
-    return <Flex>hi</Flex>;
+    console.log(spoilerLog);
+
+    return (
+        <Flex padding="1em">
+            <Dashboard
+                spoilerLog={spoilerLog}
+                onReset={() => setSpoilerLog(undefined)}
+            />
+        </Flex>
+    );
 };
 
 export default App;
