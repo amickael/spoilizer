@@ -53,7 +53,11 @@ const Spoiler = ({ item, location, price, model }: SpoilerProps) => {
         >
             <Stack isInline justify="space-between">
                 <Heading size="sm">{item}</Heading>
-                <Checkbox isChecked={isChecked} onChange={handleChange} />
+                <Checkbox
+                    isChecked={isChecked}
+                    onChange={handleChange}
+                    aria-label="toggle-inventory"
+                />
             </Stack>
             <Text>{location}</Text>
             <Stack isInline>

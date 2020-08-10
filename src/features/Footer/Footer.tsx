@@ -12,7 +12,11 @@ const Footer = () => {
             width="100%"
             height="100%"
         >
-            <Button size="sm" onClick={toggleColorMode}>
+            <Button
+                size="sm"
+                aria-label="toggle-theme"
+                onClick={toggleColorMode}
+            >
                 <i className="fas fa-adjust" />
             </Button>
             <Stack isInline>
