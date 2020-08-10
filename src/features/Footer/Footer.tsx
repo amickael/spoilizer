@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Button, Text, Link, useColorMode } from '@chakra-ui/core';
+import { Stack, Button, Text, Link, Icon, useColorMode } from '@chakra-ui/core';
 
 const Footer = () => {
     const { toggleColorMode } = useColorMode();
@@ -19,6 +19,23 @@ const Footer = () => {
             >
                 <i className="fas fa-adjust" />
             </Button>
+            <Stack isInline>
+                <Link
+                    fontSize="sm"
+                    isExternal
+                    href="https://github.com/amickael/spoilizer/issues/new?template=bug_report.md"
+                >
+                    Report a bug <Icon name="external-link" />
+                </Link>
+                <Text fontSize="sm">&bull;</Text>
+                <Link
+                    fontSize="sm"
+                    isExternal
+                    href="https://github.com/amickael/spoilizer/issues/new?template=feature_request.md"
+                >
+                    Request a feature <Icon name="external-link" />
+                </Link>
+            </Stack>
             <Stack isInline>
                 <Text fontSize="sm">&copy; 2020 Andrew Mickael</Text>
                 <Text fontSize="sm">&bull;</Text>
