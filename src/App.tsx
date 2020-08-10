@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Flex, useToast } from '@chakra-ui/core';
-import { SpoilerLog } from './types/spoilerLog';
+import { RootState } from './provider/store';
+import { setSpoilerLog } from './provider/appReducer';
 import { Upload, Dashboard } from './features';
 
 const App = () => {
-    const [spoilerLog, setSpoilerLog] = useState<SpoilerLog>(),
-        toast = useToast();
+    const toast = useToast(),
+        dispatch = useDispatch(),
+        { spoilerLog } = useSelector((state: RootState) => state);
 
     const handleError = () => {
         toast({
@@ -26,7 +29,12 @@ const App = () => {
                 direction="column"
                 paddingTop="25vh"
             >
-                <Upload onSuccess={setSpoilerLog} onError={handleError}>
+                <Upload
+                    onSuccess={(spoilerLog) =>
+                        dispatch(setSpoilerLog(spoilerLog))
+                    }
+                    onError={handleError}
+                >
                     Upload Spoiler Log
                 </Upload>
             </Flex>
@@ -37,7 +45,7 @@ const App = () => {
         <Flex padding="1em" direction="column">
             <Dashboard
                 spoilerLog={spoilerLog}
-                onReset={() => setSpoilerLog(undefined)}
+                onReset={() => dispatch(setSpoilerLog(undefined))}
             />
         </Flex>
     );

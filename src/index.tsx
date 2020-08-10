@@ -6,21 +6,25 @@ import {
     ColorModeProvider,
     CSSReset,
 } from '@chakra-ui/core';
+import { Provider } from 'react-redux';
+import { store } from './provider';
 import App from './App';
 import { Footer } from './features';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <React.StrictMode>
-        <ThemeProvider>
-            <ColorModeProvider>
-                <CSSReset />
-                <Stack minHeight="100vh" justify="space-between">
-                    <App />
-                    <Footer />
-                </Stack>
-            </ColorModeProvider>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider>
+                <ColorModeProvider>
+                    <CSSReset />
+                    <Stack minHeight="100vh" justify="space-between">
+                        <App />
+                        <Footer />
+                    </Stack>
+                </ColorModeProvider>
+            </ThemeProvider>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

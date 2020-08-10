@@ -1,13 +1,18 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Stack,
     Badge,
     Text,
     Tooltip,
     Heading,
+    Checkbox,
     useColorMode,
 } from '@chakra-ui/core';
 import { Spoiler as ISpoiler } from '../../types/spoilerLog';
+import { checkSpoiler, uncheckSpoiler } from '../../provider/appReducer';
+import { RootState } from '../../provider/store';
+import md5 from 'md5';
 
 interface SpoilerProps {
     spoiler: ISpoiler;
@@ -15,8 +20,20 @@ interface SpoilerProps {
 
 const Spoiler = ({ spoiler }: SpoilerProps) => {
     const { colorMode } = useColorMode(),
+        key = md5(`${spoiler.location}${spoiler.item.item}`),
+        { checkedSpoilers } = useSelector((state: RootState) => state),
+        dispatch = useDispatch(),
+        isChecked = checkedSpoilers.includes(key),
         bgColor = { dark: 'gray.900', light: 'gray.100' },
         borderColor = { dark: 'gray.600', light: 'gray.200' };
+
+    const handleChange = () => {
+        if (isChecked) {
+            dispatch(uncheckSpoiler(key));
+        } else {
+            dispatch(checkSpoiler(key));
+        }
+    };
 
     return (
         <Stack
@@ -27,7 +44,10 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
             borderColor={borderColor[colorMode]}
             borderWidth={1}
         >
-            <Heading size="sm">{spoiler.item.item}</Heading>
+            <Stack isInline justify="space-between">
+                <Heading size="sm">{spoiler.item.item}</Heading>
+                <Checkbox isChecked={isChecked} onChange={handleChange} />
+            </Stack>
             <Text>{spoiler.location}</Text>
             <Stack isInline>
                 {!!spoiler.item.price && (
