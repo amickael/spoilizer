@@ -52,14 +52,14 @@ const Spoiler = ({ item, location, price, model }: SpoilerProps) => {
             borderWidth={1}
         >
             <Stack isInline justify="space-between">
-                <Heading size="sm">{item}</Heading>
+                <Heading size="sm">{location}</Heading>
                 <Checkbox
                     isChecked={isChecked}
                     onChange={handleChange}
                     aria-label="toggle-inventory"
                 />
             </Stack>
-            <Text>{location}</Text>
+            <Text>{item}</Text>
             <Stack isInline>
                 {!!price && (
                     <Tooltip
