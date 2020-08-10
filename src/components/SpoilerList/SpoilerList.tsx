@@ -57,6 +57,7 @@ const SpoilerList = ({
                             value={query}
                             placeholder="Search items"
                             onChange={handleQuery}
+                            aria-label="search-items"
                         />
                         <InputRightElement
                             children={
