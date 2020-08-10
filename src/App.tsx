@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Flex, useToast } from '@chakra-ui/core';
 import { RootState } from './provider/store';
-import { setSpoilerLog } from './provider/appReducer';
+import { setSpoilerLog, reset } from './provider/appReducer';
 import { Upload, Dashboard } from './features';
 
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
         <Flex padding="1em" direction="column">
             <Dashboard
                 spoilerLog={spoilerLog}
-                onReset={() => dispatch(setSpoilerLog(undefined))}
+                onReset={() => dispatch(reset())}
             />
         </Flex>
     );

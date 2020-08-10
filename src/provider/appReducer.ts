@@ -19,10 +19,14 @@ const user = createSlice({
                 (spoiler) => spoiler !== action.payload
             );
         },
+        reset(state) {
+            state.spoilerLog = undefined;
+            state.checkedSpoilers = [];
+        },
     },
 });
 
 const { actions, reducer } = user;
-export const { setSpoilerLog, checkSpoiler, uncheckSpoiler } = actions;
+export const { setSpoilerLog, checkSpoiler, uncheckSpoiler, reset } = actions;
 
 export default reducer;

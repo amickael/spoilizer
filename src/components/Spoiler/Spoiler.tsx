@@ -24,7 +24,10 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
         { checkedSpoilers } = useSelector((state: RootState) => state),
         dispatch = useDispatch(),
         isChecked = checkedSpoilers.includes(key),
-        bgColor = { dark: 'gray.900', light: 'gray.100' },
+        bgColor = {
+            dark: isChecked ? 'gray.600' : 'gray.900',
+            light: isChecked ? 'gray.200' : 'gray.100',
+        },
         borderColor = { dark: 'gray.600', light: 'gray.200' };
 
     const handleChange = () => {
