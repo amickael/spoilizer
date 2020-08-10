@@ -10,10 +10,11 @@ import {
     Tab,
     TabPanels,
     TabPanel,
-    Box,
     useColorMode,
 } from '@chakra-ui/core';
-import { SpoilerList } from '../../components';
+import { AllItems } from './AllItems';
+import { WayOfTheHero } from './WayOfTheHero';
+import { Playthrough } from './Playthrough';
 import { SpoilerLog } from '../../types/spoilerLog';
 
 interface DashboardProps {
@@ -65,27 +66,15 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
-                            <SpoilerList
-                                title="All Items"
-                                spoilerList={spoilerLog.locations}
-                            />
+                            <AllItems spoilerList={spoilerLog.locations} />
                         </TabPanel>
                         <TabPanel>
-                            <SpoilerList
-                                title="Way of the Hero"
-                                spoilerList={spoilerLog.essentials}
-                            />
+                            <WayOfTheHero spoilerList={spoilerLog.essentials} />
                         </TabPanel>
                         <TabPanel>
-                            {spoilerLog.playthrough.map((step, i) => (
-                                <Box key={i} paddingY="0.5em">
-                                    <SpoilerList
-                                        title={`Sphere ${step.stepNum}`}
-                                        spoilerList={step.items}
-                                        hideSearch
-                                    />
-                                </Box>
-                            ))}
+                            <Playthrough
+                                playthroughSteps={spoilerLog.playthrough}
+                            />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
