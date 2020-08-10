@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Stack,
@@ -9,21 +9,25 @@ import {
     Checkbox,
     useColorMode,
 } from '@chakra-ui/core';
-import { Spoiler as ISpoiler } from '../../types/spoilerLog';
 import { checkSpoiler, uncheckSpoiler } from '../../provider/appReducer';
 import { RootState } from '../../provider/store';
 import md5 from 'md5';
 
 interface SpoilerProps {
-    spoiler: ISpoiler;
+    item: string;
+    location: string;
+    price?: number;
+    model?: string;
 }
 
-const Spoiler = ({ spoiler }: SpoilerProps) => {
+const Spoiler = ({ item, location, price, model }: SpoilerProps) => {
     const { colorMode } = useColorMode(),
-        key = md5(`${spoiler.location}${spoiler.item.item}`),
-        { checkedSpoilers } = useSelector((state: RootState) => state),
+        checkedSpoilers = useSelector(
+            (state: RootState) => state.checkedSpoilers
+        ),
+        id = useMemo(() => md5(`${location}${item}`), [location, item]),
         dispatch = useDispatch(),
-        isChecked = checkedSpoilers.includes(key),
+        isChecked = checkedSpoilers.includes(id),
         bgColor = {
             dark: isChecked ? 'gray.600' : 'gray.900',
             light: isChecked ? 'gray.200' : 'gray.100',
@@ -32,9 +36,9 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
 
     const handleChange = () => {
         if (isChecked) {
-            dispatch(uncheckSpoiler(key));
+            dispatch(uncheckSpoiler(id));
         } else {
-            dispatch(checkSpoiler(key));
+            dispatch(checkSpoiler(id));
         }
     };
 
@@ -48,12 +52,12 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
             borderWidth={1}
         >
             <Stack isInline justify="space-between">
-                <Heading size="sm">{spoiler.item.item}</Heading>
+                <Heading size="sm">{item}</Heading>
                 <Checkbox isChecked={isChecked} onChange={handleChange} />
             </Stack>
-            <Text>{spoiler.location}</Text>
+            <Text>{location}</Text>
             <Stack isInline>
-                {!!spoiler.item.price && (
+                {!!price && (
                     <Tooltip
                         label="Item price"
                         aria-label="price-tooltip"
@@ -62,11 +66,11 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
                     >
                         <Badge variantColor="green" marginRight="0.5em">
                             <i className="fas fa-gem" />
-                            &nbsp;{spoiler.item.price}
+                            &nbsp;{price}
                         </Badge>
                     </Tooltip>
                 )}
-                {!!spoiler.item.model && (
+                {!!model && (
                     <Tooltip
                         label="Visual model"
                         aria-label="model-tooltip"
@@ -75,7 +79,7 @@ const Spoiler = ({ spoiler }: SpoilerProps) => {
                     >
                         <Badge variantColor="red">
                             <i className="fas fa-draw-polygon" />
-                            &nbsp;{spoiler.item.model}
+                            &nbsp;{model}
                         </Badge>
                     </Tooltip>
                 )}

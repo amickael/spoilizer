@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Spoiler } from '../Spoiler';
 import {
     Grid,
@@ -8,8 +8,11 @@ import {
     InputLeftElement,
     Icon,
     Heading,
+    InputRightElement,
+    IconButton,
 } from '@chakra-ui/core';
 import { Spoiler as ISpoiler } from '../../types/spoilerLog';
+import Fuse from 'fuse.js';
 
 interface SpoilerListProps {
     title?: string;
@@ -17,27 +20,26 @@ interface SpoilerListProps {
     hideSearch?: boolean;
 }
 
+const MemoSpoiler = React.memo(Spoiler);
 const SpoilerList = ({
     title = 'Spoilers',
     spoilerList,
     hideSearch = false,
 }: SpoilerListProps) => {
-    const [data, setData] = useState<ISpoiler[]>([...spoilerList]),
-        [searchText, setSearchText] = useState('');
+    const [query, setQuery] = useState(''),
+        fuse = useMemo(
+            () =>
+                new Fuse(spoilerList, { keys: ['item.item'], threshold: 0.25 }),
+            [spoilerList]
+        ),
+        searchResult = useMemo(
+            () => fuse.search(query).map((result) => result.item),
+            [fuse, query]
+        );
 
-    useEffect(() => {
-        if (searchText === '') {
-            setData([...spoilerList]);
-        } else {
-            setData(
-                [...spoilerList].filter((spoiler) =>
-                    spoiler.item.item
-                        .toLowerCase()
-                        .includes(searchText.toLowerCase())
-                )
-            );
-        }
-    }, [searchText, spoilerList]);
+    const handleQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setQuery(event.target.value);
+    };
 
     return (
         <Flex direction="column" width="100%">
@@ -52,11 +54,22 @@ const SpoilerList = ({
                     <InputGroup width="35%">
                         <InputLeftElement children={<Icon name="search" />} />
                         <Input
-                            value={searchText}
+                            value={query}
                             placeholder="Search items"
-                            onChange={(
-                                event: React.ChangeEvent<HTMLInputElement>
-                            ) => setSearchText(event.target.value)}
+                            onChange={handleQuery}
+                        />
+                        <InputRightElement
+                            children={
+                                <IconButton
+                                    aria-label="clear-search"
+                                    onClick={() => setQuery('')}
+                                    icon="small-close"
+                                    size="xs"
+                                    isRound
+                                    hidden={!query}
+                                    children={undefined}
+                                />
+                            }
                         />
                     </InputGroup>
                 )}
@@ -65,8 +78,14 @@ const SpoilerList = ({
                 templateColumns="repeat(auto-fill, minmax(350px, 1fr))"
                 gap={2}
             >
-                {data.map((spoiler, i) => (
-                    <Spoiler key={i} spoiler={spoiler} />
+                {(query ? searchResult : spoilerList).map((spoiler) => (
+                    <MemoSpoiler
+                        key={`${spoiler.location}${spoiler.item.item}`}
+                        item={spoiler.item.item}
+                        location={spoiler.location}
+                        price={spoiler.item.price}
+                        model={spoiler.item.model}
+                    />
                 ))}
             </Grid>
         </Flex>
