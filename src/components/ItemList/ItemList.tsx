@@ -3,20 +3,22 @@ import { Item } from '../Item';
 import { Search } from '../Search';
 import { Grid, Flex, Heading, Box } from '@chakra-ui/core';
 import { Item as IItem } from '../../types/spoilerLog';
+import sortBy from 'lodash/sortBy';
 
-interface SpoilerListProps {
+interface ItemListProps {
     title?: string;
-    spoilerList: IItem[];
+    itemList: IItem[];
     hideSearch?: boolean;
 }
 
 const MemoSpoiler = React.memo(Item);
 const ItemList = ({
-    title = 'Spoilers',
-    spoilerList,
+    title = 'Items',
+    itemList,
     hideSearch = false,
-}: SpoilerListProps) => {
-    const [filteredData, setFilteredData] = useState<IItem[]>([]);
+}: ItemListProps) => {
+    const [filteredData, setFilteredData] = useState<IItem[]>([]),
+        sortedData = sortBy(itemList, 'location');
 
     return (
         <Flex direction="column" width="100%">
@@ -30,7 +32,7 @@ const ItemList = ({
                 {!hideSearch && (
                     <Box width="35%">
                         <Search
-                            collection={spoilerList}
+                            collection={sortedData}
                             keys={['item.item']}
                             onSearch={setFilteredData}
                         />
@@ -41,14 +43,14 @@ const ItemList = ({
                 templateColumns="repeat(auto-fill, minmax(350px, 1fr))"
                 gap={2}
             >
-                {(filteredData.length ? filteredData : spoilerList).map(
-                    (spoiler) => (
+                {(filteredData.length ? filteredData : sortedData).map(
+                    (item) => (
                         <MemoSpoiler
-                            key={`${spoiler.location}${spoiler.item.item}`}
-                            item={spoiler.item.item}
-                            location={spoiler.location}
-                            price={spoiler.item.price}
-                            model={spoiler.item.model}
+                            key={`${item.location}${item.item.item}`}
+                            item={item.item.item}
+                            location={item.location}
+                            price={item.item.price}
+                            model={item.item.model}
                         />
                     )
                 )}

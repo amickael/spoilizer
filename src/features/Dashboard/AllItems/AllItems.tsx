@@ -3,11 +3,11 @@ import { ItemList } from '../../../components/ItemList';
 import { Item } from '../../../types/spoilerLog';
 
 interface AllItemsProps {
-    spoilerList: Item[];
+    itemList: Item[];
 }
 
-const AllItems = ({ spoilerList }: AllItemsProps) => {
-    return <ItemList title="All Items" spoilerList={spoilerList} />;
+const AllItems = ({ itemList }: AllItemsProps) => {
+    return <ItemList title="All Items" itemList={itemList} />;
 };
 
 export { AllItems };

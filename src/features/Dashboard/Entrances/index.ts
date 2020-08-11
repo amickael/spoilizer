@@ -1,1 +1,1 @@
-export default null;
+export { Entrances } from './Entrances';

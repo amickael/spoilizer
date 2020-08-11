@@ -14,7 +14,7 @@ const Playthrough = ({ playthroughSteps }: PlaythroughProps) => {
                 <Box key={i} paddingY="0.5em">
                     <ItemList
                         title={`Sphere ${step.stepNum}`}
-                        spoilerList={step.items}
+                        itemList={step.items}
                         hideSearch
                     />
                 </Box>

@@ -3,11 +3,11 @@ import { ItemList } from '../../../components/ItemList';
 import { Item } from '../../../types/spoilerLog';
 
 interface WayOfTheHeroProps {
-    spoilerList: Item[];
+    itemList: Item[];
 }
 
-const WayOfTheHero = ({ spoilerList }: WayOfTheHeroProps) => {
-    return <ItemList title="Way of the Hero" spoilerList={spoilerList} />;
+const WayOfTheHero = ({ itemList }: WayOfTheHeroProps) => {
+    return <ItemList title="Way of the Hero" itemList={itemList} />;
 };
 
 export { WayOfTheHero };

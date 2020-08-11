@@ -15,6 +15,7 @@ import {
 import { AllItems } from './AllItems';
 import { WayOfTheHero } from './WayOfTheHero';
 import { Playthrough } from './Playthrough';
+import { Entrances } from './Entrances';
 import { SpoilerLog } from '../../types/spoilerLog';
 
 interface DashboardProps {
@@ -67,17 +68,19 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
-                            <AllItems spoilerList={spoilerLog.items} />
+                            <AllItems itemList={spoilerLog.items} />
                         </TabPanel>
                         <TabPanel>
-                            <WayOfTheHero spoilerList={spoilerLog.woth} />
+                            <WayOfTheHero itemList={spoilerLog.woth} />
                         </TabPanel>
                         <TabPanel>
                             <Playthrough
                                 playthroughSteps={spoilerLog.playthrough}
                             />
                         </TabPanel>
-                        <TabPanel>Entrances</TabPanel>
+                        <TabPanel>
+                            <Entrances entranceList={spoilerLog.entrances} />
+                        </TabPanel>
                     </TabPanels>
                 </Tabs>
             </Flex>

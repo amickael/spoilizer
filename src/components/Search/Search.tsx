@@ -13,9 +13,15 @@ export interface SearchProps {
     collection: unknown[];
     keys: string[];
     onSearch: (results: any[]) => void;
+    placeholder?: string;
 }
 
-const Search = ({ collection, onSearch, keys }: SearchProps) => {
+const Search = ({
+    collection,
+    onSearch,
+    keys,
+    placeholder = 'Search',
+}: SearchProps) => {
     const [query, setQuery] = useState(''),
         fuse = useMemo(
             () => new Fuse(collection, { keys: keys, threshold: 0.25 }),
@@ -40,9 +46,9 @@ const Search = ({ collection, onSearch, keys }: SearchProps) => {
             <InputLeftElement children={<Icon name="search" />} />
             <Input
                 value={query}
-                placeholder="Search items"
+                placeholder={placeholder}
                 onChange={handleQuery}
-                aria-label="search-items"
+                aria-label="search"
             />
             <InputRightElement
                 children={
