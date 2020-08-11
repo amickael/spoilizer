@@ -74,14 +74,18 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             <i className="fas fa-directions" />
                             <Text marginLeft={2}>Playthrough</Text>
                         </Tab>
-                        <Tab>
-                            <i className="fas fa-dungeon" />
-                            <Text marginLeft={2}>Entrances</Text>
-                        </Tab>
-                        <Tab>
-                            <i className="fas fa-map-signs" />
-                            <Text marginLeft={2}>Entrance Playthrough</Text>
-                        </Tab>
+                        {(spoilerLog?.entrances ?? []).length && (
+                            <Tab>
+                                <i className="fas fa-dungeon" />
+                                <Text marginLeft={2}>Entrances</Text>
+                            </Tab>
+                        )}
+                        {(spoilerLog?.entrancePlaythrough ?? []).length && (
+                            <Tab>
+                                <i className="fas fa-map-signs" />
+                                <Text marginLeft={2}>Entrance Playthrough</Text>
+                            </Tab>
+                        )}
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>

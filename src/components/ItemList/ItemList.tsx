@@ -33,7 +33,7 @@ const ItemList = ({
                     <Box width="35%">
                         <Search
                             collection={sortedData}
-                            keys={['item.item']}
+                            keys={['item']}
                             onSearch={setFilteredData}
                         />
                     </Box>
@@ -45,11 +45,8 @@ const ItemList = ({
             >
                 {filteredData.map((item) => (
                     <MemoSpoiler
-                        key={`${item.location}${item.item.item}`}
-                        item={item.item.item}
-                        location={item.location}
-                        price={item.item.price}
-                        model={item.item.model}
+                        key={`${item.location}${item.item}`}
+                        {...item}
                     />
                 ))}
             </Grid>

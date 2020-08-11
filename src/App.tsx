@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Flex, useToast } from '@chakra-ui/core';
 import { RootState } from './provider/store';
 import { setSpoilerLog, reset } from './provider/appReducer';
-import { Upload, Dashboard } from './features';
+import { Upload, Dashboard, Universe } from './features';
 
 const App = () => {
     const toast = useToast(),
@@ -43,10 +43,17 @@ const App = () => {
 
     return (
         <Flex padding="1em" direction="column">
-            <Dashboard
-                spoilerLog={spoilerLog}
-                onReset={() => dispatch(reset())}
-            />
+            {Array.isArray(spoilerLog) ? (
+                <Universe
+                    spoilerLogs={spoilerLog}
+                    onReset={() => dispatch(reset())}
+                />
+            ) : (
+                <Dashboard
+                    spoilerLog={spoilerLog}
+                    onReset={() => dispatch(reset())}
+                />
+            )}
         </Flex>
     );
 };

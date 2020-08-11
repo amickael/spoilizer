@@ -1,6 +1,9 @@
 export interface Item {
     location: string;
-    item: { item: string; price?: number; model?: string };
+    item: string;
+    price?: number;
+    model?: string;
+    player?: number;
 }
 
 export interface PlaythroughSphere {
@@ -27,4 +30,5 @@ export interface SpoilerLog {
     playthrough: PlaythroughSphere[];
     entrances: Entrance[];
     entrancePlaythrough: EntranceSphere[];
+    world?: string;
 }

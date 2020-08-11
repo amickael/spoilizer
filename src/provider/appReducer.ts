@@ -2,15 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SpoilerLog } from '../types/spoilerLog';
 
 export const initialState = {
-    spoilerLog: undefined as SpoilerLog | undefined,
+    spoilerLog: undefined as SpoilerLog | SpoilerLog[] | undefined,
     checkedSpoilers: [] as string[],
     checkedEntrances: [] as string[],
 };
 const app = createSlice({
-    name: 'user',
+    name: 'app',
     initialState,
     reducers: {
-        setSpoilerLog(state, action: PayloadAction<SpoilerLog | undefined>) {
+        setSpoilerLog(
+            state,
+            action: PayloadAction<SpoilerLog | SpoilerLog[] | undefined>
+        ) {
             state.spoilerLog = action.payload;
         },
         checkSpoiler(state, action: PayloadAction<string>) {
