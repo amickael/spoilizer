@@ -65,6 +65,19 @@ export const items = yup.lazy((value) => {
             }
         }),
         entrances: entrances,
+        ':entrance_playthrough': yup.lazy((value) => {
+            if (typeof value === 'object') {
+                const shape: { [key: string]: any } = {};
+                Object.keys(value as object).forEach((key) => {
+                    shape[key] = entrances;
+                });
+                return yup.object().shape(shape);
+            } else {
+                return yup
+                    .mixed()
+                    .typeError('Invalid entrance playthrough shape');
+            }
+        }),
     });
 
 export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
@@ -82,8 +95,8 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
             })
         ),
         playthrough = Object.entries(source?.[':playthrough']).map(
-            ([stepNum, spoiler]) => ({
-                stepNum: parseInt(stepNum),
+            ([sphere, spoiler]) => ({
+                sphere: parseInt(sphere),
                 items: Object.entries(spoiler as object).map(
                     ([location, item]) => ({
                         location,
@@ -100,7 +113,23 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
                 origin:
                     typeof dest === 'object' ? (dest as any).from : undefined,
             })
-        );
+        ),
+        entrancePlaythrough = Object.entries(
+            source?.[':entrance_playthrough']
+        ).map(([sphere, entrance]) => ({
+            sphere: parseInt(sphere),
+            entrances: Object.entries(entrance as object).map(
+                ([entrance, dest]) => ({
+                    entrance,
+                    destination:
+                        typeof dest === 'object' ? (dest as any).region : dest,
+                    origin:
+                        typeof dest === 'object'
+                            ? (dest as any).from
+                            : undefined,
+                })
+            ),
+        }));
 
     return {
         seed: source?.[':seed'] ?? '',
@@ -109,5 +138,6 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
         woth: essentials as Item[],
         playthrough,
         entrances,
+        entrancePlaythrough,
     };
 };

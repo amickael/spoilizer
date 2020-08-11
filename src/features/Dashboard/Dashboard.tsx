@@ -16,6 +16,7 @@ import { AllItems } from './AllItems';
 import { WayOfTheHero } from './WayOfTheHero';
 import { Playthrough } from './Playthrough';
 import { Entrances } from './Entrances';
+import { EntrancePlaythrough } from './EntrancePlaythrough';
 import { SpoilerLog } from '../../types/spoilerLog';
 
 interface DashboardProps {
@@ -77,6 +78,10 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             <i className="fas fa-dungeon" />
                             <Text marginLeft={2}>Entrances</Text>
                         </Tab>
+                        <Tab>
+                            <i className="fas fa-map-signs" />
+                            <Text marginLeft={2}>Entrance Playthrough</Text>
+                        </Tab>
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
@@ -87,11 +92,16 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                         </TabPanel>
                         <TabPanel>
                             <Playthrough
-                                playthroughSteps={spoilerLog.playthrough}
+                                playthroughSpheres={spoilerLog.playthrough}
                             />
                         </TabPanel>
                         <TabPanel>
                             <Entrances entranceList={spoilerLog.entrances} />
+                        </TabPanel>
+                        <TabPanel>
+                            <EntrancePlaythrough
+                                entranceSpheres={spoilerLog.entrancePlaythrough}
+                            />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

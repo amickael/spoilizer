@@ -3,8 +3,8 @@ export interface Item {
     item: { item: string; price?: number; model?: string };
 }
 
-export interface PlaythroughStep {
-    stepNum: number;
+export interface PlaythroughSphere {
+    sphere: number;
     items: Item[];
 }
 
@@ -14,11 +14,17 @@ export interface Entrance {
     origin?: string;
 }
 
+export interface EntranceSphere {
+    sphere: number;
+    entrances: Entrance[];
+}
+
 export interface SpoilerLog {
     seed: string;
     settings: string;
     items: Item[];
     woth: Item[];
-    playthrough: PlaythroughStep[];
+    playthrough: PlaythroughSphere[];
     entrances: Entrance[];
+    entrancePlaythrough: EntranceSphere[];
 }
