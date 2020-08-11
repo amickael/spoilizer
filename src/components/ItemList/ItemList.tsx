@@ -17,8 +17,8 @@ const ItemList = ({
     itemList,
     hideSearch = false,
 }: ItemListProps) => {
-    const [filteredData, setFilteredData] = useState<IItem[]>([]),
-        sortedData = sortBy(itemList, 'location');
+    const sortedData = sortBy(itemList, 'location'),
+        [filteredData, setFilteredData] = useState<IItem[]>(sortedData);
 
     return (
         <Flex direction="column" width="100%">
@@ -43,17 +43,15 @@ const ItemList = ({
                 templateColumns="repeat(auto-fill, minmax(350px, 1fr))"
                 gap={2}
             >
-                {(filteredData.length ? filteredData : sortedData).map(
-                    (item) => (
-                        <MemoSpoiler
-                            key={`${item.location}${item.item.item}`}
-                            item={item.item.item}
-                            location={item.location}
-                            price={item.item.price}
-                            model={item.item.model}
-                        />
-                    )
-                )}
+                {filteredData.map((item) => (
+                    <MemoSpoiler
+                        key={`${item.location}${item.item.item}`}
+                        item={item.item.item}
+                        location={item.location}
+                        price={item.item.price}
+                        model={item.item.model}
+                    />
+                ))}
             </Grid>
         </Flex>
     );

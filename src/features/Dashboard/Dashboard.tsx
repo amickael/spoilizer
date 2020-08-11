@@ -61,10 +61,22 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
             >
                 <Tabs width="100%">
                     <TabList>
-                        <Tab>All Items</Tab>
-                        <Tab>Way of the Hero</Tab>
-                        <Tab>Playthrough</Tab>
-                        <Tab>Entrances</Tab>
+                        <Tab>
+                            <i className="fas fa-clipboard-list-check" />
+                            <Text marginLeft={2}>All Items</Text>
+                        </Tab>
+                        <Tab>
+                            <i className="fas fa-sword" />
+                            <Text marginLeft={2}>Way of the Hero</Text>
+                        </Tab>
+                        <Tab>
+                            <i className="fas fa-directions" />
+                            <Text marginLeft={2}>Playthrough</Text>
+                        </Tab>
+                        <Tab>
+                            <i className="fas fa-dungeon" />
+                            <Text marginLeft={2}>Entrances</Text>
+                        </Tab>
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>

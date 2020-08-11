@@ -23,6 +23,7 @@ const Search = ({
     placeholder = 'Search',
 }: SearchProps) => {
     const [query, setQuery] = useState(''),
+        serializedCollection = JSON.stringify(collection),
         fuse = useMemo(
             () => new Fuse(collection, { keys: keys, threshold: 0.25 }),
             [collection, keys]
@@ -38,8 +39,12 @@ const Search = ({
     };
 
     useEffect(() => {
-        onSearch(JSON.parse(searchResult));
-    }, [onSearch, searchResult]);
+        onSearch(
+            !!query
+                ? JSON.parse(searchResult)
+                : JSON.parse(serializedCollection)
+        );
+    }, [onSearch, searchResult, serializedCollection, query]);
 
     return (
         <InputGroup width="100%">

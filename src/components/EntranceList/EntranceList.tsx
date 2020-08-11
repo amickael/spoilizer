@@ -17,8 +17,8 @@ const EntranceList = ({
     entranceList,
     hideSearch,
 }: EntranceListProps) => {
-    const [filteredData, setFilteredData] = useState<IEntrance[]>([]),
-        sortedData = sortBy(entranceList, 'entrance');
+    const sortedData = sortBy(entranceList, 'entrance'),
+        [filteredData, setFilteredData] = useState<IEntrance[]>(sortedData);
 
     return (
         <Flex direction="column" width="100%">
@@ -43,16 +43,14 @@ const EntranceList = ({
                 templateColumns="repeat(auto-fill, minmax(500px, 1fr))"
                 gap={2}
             >
-                {(filteredData.length ? filteredData : sortedData).map(
-                    (entrance) => (
-                        <MemoEntrance
-                            key={`${entrance.entrance}`}
-                            entrance={entrance.entrance}
-                            destination={entrance.destination}
-                            origin={entrance.origin}
-                        />
-                    )
-                )}
+                {filteredData.map((entrance) => (
+                    <MemoEntrance
+                        key={`${entrance.entrance}`}
+                        entrance={entrance.entrance}
+                        destination={entrance.destination}
+                        origin={entrance.origin}
+                    />
+                ))}
             </Grid>
         </Flex>
     );
