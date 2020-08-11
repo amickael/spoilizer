@@ -1,13 +1,13 @@
 import React from 'react';
-import { SpoilerList } from '../../../components/SpoilerList';
-import { Spoiler } from '../../../types/spoilerLog';
+import { ItemList } from '../../../components/ItemList';
+import { Item } from '../../../types/spoilerLog';
 
 interface WayOfTheHeroProps {
-    spoilerList: Spoiler[];
+    spoilerList: Item[];
 }
 
 const WayOfTheHero = ({ spoilerList }: WayOfTheHeroProps) => {
-    return <SpoilerList title="Way of the Hero" spoilerList={spoilerList} />;
+    return <ItemList title="Way of the Hero" spoilerList={spoilerList} />;
 };
 
 export { WayOfTheHero };

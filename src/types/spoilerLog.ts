@@ -1,17 +1,24 @@
-export interface Spoiler {
+export interface Item {
     location: string;
     item: { item: string; price?: number; model?: string };
 }
 
 export interface PlaythroughStep {
     stepNum: number;
-    items: Spoiler[];
+    items: Item[];
+}
+
+export interface Entrance {
+    entrance: string;
+    destination: string;
+    origin?: string;
 }
 
 export interface SpoilerLog {
     seed: string;
     settings: string;
-    locations: Spoiler[];
-    essentials: Spoiler[];
+    items: Item[];
+    woth: Item[];
     playthrough: PlaythroughStep[];
+    entrances: Entrance[];
 }

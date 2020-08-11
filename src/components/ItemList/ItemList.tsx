@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Spoiler } from '../Spoiler';
+import { Item } from '../Item';
 import {
     Grid,
     Input,
@@ -11,7 +11,7 @@ import {
     InputRightElement,
     IconButton,
 } from '@chakra-ui/core';
-import { Spoiler as ISpoiler } from '../../types/spoilerLog';
+import { Item as ISpoiler } from '../../types/spoilerLog';
 import Fuse from 'fuse.js';
 
 interface SpoilerListProps {
@@ -20,8 +20,8 @@ interface SpoilerListProps {
     hideSearch?: boolean;
 }
 
-const MemoSpoiler = React.memo(Spoiler);
-const SpoilerList = ({
+const MemoSpoiler = React.memo(Item);
+const ItemList = ({
     title = 'Spoilers',
     spoilerList,
     hideSearch = false,
@@ -93,4 +93,4 @@ const SpoilerList = ({
     );
 };
 
-export { SpoilerList };
+export { ItemList };

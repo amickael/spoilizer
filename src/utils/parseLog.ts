@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import { SpoilerLog, Spoiler } from '../types/spoilerLog';
+import { SpoilerLog, Item } from '../types/spoilerLog';
 
-export const spoiler = yup.lazy((value) => {
+export const items = yup.lazy((value) => {
         if (typeof value === 'object') {
             const shape: { [key: string]: any } = {};
             Object.keys(value as object).forEach((key) => {
@@ -25,22 +25,46 @@ export const spoiler = yup.lazy((value) => {
             return yup.mixed().typeError('Invalid location shape');
         }
     }),
+    entrances = yup.lazy((value) => {
+        if (typeof value === 'object') {
+            const shape: { [key: string]: any } = {};
+            Object.keys(value as object).forEach((key) => {
+                shape[key] = yup.lazy((value) => {
+                    switch (typeof value) {
+                        case 'string':
+                            return yup.string();
+                        case 'object':
+                            return yup.object().shape({
+                                region: yup.string(),
+                                from: yup.string(),
+                            });
+                        default:
+                            return yup.mixed().typeError('Invalid entrance');
+                    }
+                });
+            });
+            return yup.object().shape(shape);
+        } else {
+            return yup.mixed().typeError('Invalid entrance');
+        }
+    }),
     logSchema = yup.object().shape({
         ':seed': yup.string(),
         ':settings_string': yup.string(),
-        locations: spoiler,
-        ':woth_locations': spoiler,
+        locations: items,
+        ':woth_locations': items,
         ':playthrough': yup.lazy((value) => {
             if (typeof value === 'object') {
                 const shape: { [key: string]: any } = {};
                 Object.keys(value as object).forEach((key) => {
-                    shape[key] = spoiler;
+                    shape[key] = items;
                 });
                 return yup.object().shape(shape);
             } else {
                 return yup.mixed().typeError('Invalid playthrough shape');
             }
         }),
+        entrances: entrances,
     });
 
 export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
@@ -67,13 +91,23 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
                     })
                 ),
             })
+        ),
+        entrances = Object.entries(source?.entrances).map(
+            ([entrance, dest]) => ({
+                entrance: entrance,
+                destination:
+                    typeof dest === 'object' ? (dest as any).region : dest,
+                origin:
+                    typeof dest === 'object' ? (dest as any).from : undefined,
+            })
         );
 
     return {
         seed: source?.[':seed'] ?? '',
         settings: source?.[':settings_string'] ?? '',
-        locations: locations as Spoiler[],
-        essentials: essentials as Spoiler[],
+        items: locations as Item[],
+        woth: essentials as Item[],
         playthrough,
+        entrances,
     };
 };

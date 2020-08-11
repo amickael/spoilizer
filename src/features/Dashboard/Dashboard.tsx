@@ -63,19 +63,21 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                         <Tab>All Items</Tab>
                         <Tab>Way of the Hero</Tab>
                         <Tab>Playthrough</Tab>
+                        <Tab>Entrances</Tab>
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
-                            <AllItems spoilerList={spoilerLog.locations} />
+                            <AllItems spoilerList={spoilerLog.items} />
                         </TabPanel>
                         <TabPanel>
-                            <WayOfTheHero spoilerList={spoilerLog.essentials} />
+                            <WayOfTheHero spoilerList={spoilerLog.woth} />
                         </TabPanel>
                         <TabPanel>
                             <Playthrough
                                 playthroughSteps={spoilerLog.playthrough}
                             />
                         </TabPanel>
+                        <TabPanel>Entrances</TabPanel>
                     </TabPanels>
                 </Tabs>
             </Flex>

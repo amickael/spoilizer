@@ -1,13 +1,13 @@
 import React from 'react';
-import { SpoilerList } from '../../../components/SpoilerList';
-import { Spoiler } from '../../../types/spoilerLog';
+import { ItemList } from '../../../components/ItemList';
+import { Item } from '../../../types/spoilerLog';
 
 interface AllItemsProps {
-    spoilerList: Spoiler[];
+    spoilerList: Item[];
 }
 
 const AllItems = ({ spoilerList }: AllItemsProps) => {
-    return <SpoilerList title="All Items" spoilerList={spoilerList} />;
+    return <ItemList title="All Items" spoilerList={spoilerList} />;
 };
 
 export { AllItems };

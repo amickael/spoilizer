@@ -20,7 +20,7 @@ interface SpoilerProps {
     model?: string;
 }
 
-const Spoiler = ({ item, location, price, model }: SpoilerProps) => {
+const Item = ({ item, location, price, model }: SpoilerProps) => {
     const { colorMode } = useColorMode(),
         checkedSpoilers = useSelector(
             (state: RootState) => state.checkedSpoilers
@@ -92,4 +92,4 @@ const Spoiler = ({ item, location, price, model }: SpoilerProps) => {
     );
 };
 
-export { Spoiler };
+export { Item };
