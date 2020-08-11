@@ -85,22 +85,28 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
-                            <AllItems itemList={spoilerLog.items} />
+                            <AllItems itemList={spoilerLog?.items ?? []} />
                         </TabPanel>
                         <TabPanel>
-                            <WayOfTheHero itemList={spoilerLog.woth} />
+                            <WayOfTheHero itemList={spoilerLog?.woth ?? []} />
                         </TabPanel>
                         <TabPanel>
                             <Playthrough
-                                playthroughSpheres={spoilerLog.playthrough}
+                                playthroughSpheres={
+                                    spoilerLog?.playthrough ?? []
+                                }
                             />
                         </TabPanel>
                         <TabPanel>
-                            <Entrances entranceList={spoilerLog.entrances} />
+                            <Entrances
+                                entranceList={spoilerLog?.entrances ?? []}
+                            />
                         </TabPanel>
                         <TabPanel>
                             <EntrancePlaythrough
-                                entranceSpheres={spoilerLog.entrancePlaythrough}
+                                entranceSpheres={
+                                    spoilerLog?.entrancePlaythrough ?? []
+                                }
                             />
                         </TabPanel>
                     </TabPanels>
