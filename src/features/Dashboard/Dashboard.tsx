@@ -10,10 +10,12 @@ import {
     Tab,
     TabPanels,
     TabPanel,
-    Box,
     useColorMode,
 } from '@chakra-ui/core';
-import { SpoilerList } from '../../components';
+import { AllItems } from './AllItems';
+import { WayOfTheHero } from './WayOfTheHero';
+import { Playthrough } from './Playthrough';
+import { Entrances } from './Entrances';
 import { SpoilerLog } from '../../types/spoilerLog';
 
 interface DashboardProps {
@@ -62,30 +64,22 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                         <Tab>All Items</Tab>
                         <Tab>Way of the Hero</Tab>
                         <Tab>Playthrough</Tab>
+                        <Tab>Entrances</Tab>
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
-                            <SpoilerList
-                                title="All Items"
-                                spoilerList={spoilerLog.locations}
+                            <AllItems itemList={spoilerLog.items} />
+                        </TabPanel>
+                        <TabPanel>
+                            <WayOfTheHero itemList={spoilerLog.woth} />
+                        </TabPanel>
+                        <TabPanel>
+                            <Playthrough
+                                playthroughSteps={spoilerLog.playthrough}
                             />
                         </TabPanel>
                         <TabPanel>
-                            <SpoilerList
-                                title="Way of the Hero"
-                                spoilerList={spoilerLog.essentials}
-                            />
-                        </TabPanel>
-                        <TabPanel>
-                            {spoilerLog.playthrough.map((step, i) => (
-                                <Box key={i} paddingY="0.5em">
-                                    <SpoilerList
-                                        title={`Sphere ${step.stepNum}`}
-                                        spoilerList={step.items}
-                                        hideSearch
-                                    />
-                                </Box>
-                            ))}
+                            <Entrances entranceList={spoilerLog.entrances} />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

@@ -1,1 +1,0 @@
-export { Spoiler } from './Spoiler';

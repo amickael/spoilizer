@@ -1,2 +1,3 @@
-export { Spoiler } from './Spoiler';
-export { SpoilerList } from './SpoilerList';
+export { Item } from './Item';
+export { ItemList } from './ItemList';
+export { EntranceList } from './EntranceList';
