@@ -1,1 +1,1 @@
-export default null;
+import React from 'react';

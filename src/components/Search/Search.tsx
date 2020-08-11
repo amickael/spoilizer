@@ -1,0 +1,64 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+    InputGroup,
+    InputLeftElement,
+    InputRightElement,
+    IconButton,
+    Icon,
+    Input,
+} from '@chakra-ui/core';
+import Fuse from 'fuse.js';
+
+export interface SearchProps {
+    collection: unknown[];
+    keys: string[];
+    onSearch: (results: any[]) => void;
+}
+
+const Search = ({ collection, onSearch, keys }: SearchProps) => {
+    const [query, setQuery] = useState(''),
+        fuse = useMemo(
+            () => new Fuse(collection, { keys: keys, threshold: 0.25 }),
+            [collection, keys]
+        ),
+        searchResult = useMemo(
+            () =>
+                JSON.stringify(fuse.search(query).map((result) => result.item)),
+            [fuse, query]
+        );
+
+    const handleQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setQuery(event.target.value);
+    };
+
+    useEffect(() => {
+        onSearch(JSON.parse(searchResult));
+    }, [onSearch, searchResult]);
+
+    return (
+        <InputGroup width="100%">
+            <InputLeftElement children={<Icon name="search" />} />
+            <Input
+                value={query}
+                placeholder="Search items"
+                onChange={handleQuery}
+                aria-label="search-items"
+            />
+            <InputRightElement
+                children={
+                    <IconButton
+                        aria-label="clear-search"
+                        onClick={() => setQuery('')}
+                        icon="small-close"
+                        size="xs"
+                        isRound
+                        hidden={!query}
+                        children={undefined}
+                    />
+                }
+            />
+        </InputGroup>
+    );
+};
+
+export { Search };
