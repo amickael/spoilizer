@@ -1,8 +1,12 @@
-export const loadState = (): object | undefined => {
+export const loadState = (initialState: object = {}): object | undefined => {
         try {
             const serializedState = localStorage.getItem('appState');
             if (serializedState) {
-                return JSON.parse(serializedState);
+                return Object.assign(
+                    {},
+                    initialState,
+                    JSON.parse(serializedState)
+                );
             } else {
                 return undefined;
             }
