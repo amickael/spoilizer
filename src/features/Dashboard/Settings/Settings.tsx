@@ -54,9 +54,11 @@ const Settings = ({ settings }: SettingsProps) => {
             </TabList>
             <TabPanels padding="0.5em">
                 <TabPanel>
-                    <Stack>
-                        <OptionList optionList={settings} />
-                    </Stack>
+                    {tabIndex === 0 && (
+                        <Stack>
+                            <OptionList optionList={settings} />
+                        </Stack>
+                    )}
                 </TabPanel>
                 <TabPanel>
                     {tabIndex === 1 && (
