@@ -1,6 +1,7 @@
 # Spoilizer - OOT Randomizer Spoiler Log
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/67e7d7ad-e338-40f3-aabd-bc718aae5204/deploy-status)](https://app.netlify.com/sites/spoilizer/deploys) ![GitHub issues](https://img.shields.io/github/issues/amickael/spoilizer?color=red)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/67e7d7ad-e338-40f3-aabd-bc718aae5204/deploy-status)](https://app.netlify.com/sites/spoilizer/deploys)
+[![GitHub issues](https://img.shields.io/github/issues/amickael/spoilizer?color=red)](https://github.com/amickael/spoilizer/issues)
 
 ## Using the site
 1. Go to [Spoilizer.com](https://spoilizer.com/).
