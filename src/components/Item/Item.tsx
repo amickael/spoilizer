@@ -79,7 +79,7 @@ const Item = ({
                 />
             </Stack>
             <Box bg={isHidden ? borderColor[colorMode] : undefined}>
-                <Text opacity={isHidden ? 0 : 100}>{item}</Text>
+                <Text opacity={isHidden ? 0 : 100}>{isHidden ? id : item}</Text>
             </Box>
             <Stack isInline>
                 {!!player && !isHidden && (

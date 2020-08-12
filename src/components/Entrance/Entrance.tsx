@@ -75,7 +75,9 @@ const Entrance = ({
                 />
             </Stack>
             <Box bg={isHidden ? borderColor[colorMode] : undefined}>
-                <Text opacity={isHidden ? 0 : 100}>{destination}</Text>
+                <Text opacity={isHidden ? 0 : 100}>
+                    {isHidden ? id : destination}
+                </Text>
             </Box>
             {origin && !isHidden && (
                 <Text fontSize="sm">
