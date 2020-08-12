@@ -11,7 +11,7 @@ import {
     Text,
 } from '@chakra-ui/core';
 import { parseLog, parseMultiLog } from '../../utils/parseLog';
-import { SpoilerLog } from '../../types/spoilerLog';
+import { SpoilerLog } from '../../types/SpoilerLog';
 
 interface UploadProps {
     children?: string;
@@ -39,13 +39,16 @@ const Upload = ({
             reader.readAsText(uploadedFile);
             reader.onload = () => {
                 try {
-                    const result = JSON.parse(reader.result as string);
+                    const rawLog = reader?.result?.toString() ?? '',
+                        result = JSON.parse(rawLog);
+                    localStorage.setItem('rawLog', rawLog);
                     if (isMultiworld) {
                         parseMultiLog(result).then(onSuccess).catch(onError);
                     } else {
                         parseLog(result).then(onSuccess).catch(onError);
                     }
                 } catch (e) {
+                    localStorage.removeItem('rawLog');
                     onError();
                 } finally {
                     setIsLoading(false);

@@ -20,7 +20,7 @@ import { WayOfTheHero } from './WayOfTheHero';
 import { Playthrough } from './Playthrough';
 import { Entrances } from './Entrances';
 import { EntrancePlaythrough } from './EntrancePlaythrough';
-import { SpoilerLog } from '../../types/spoilerLog';
+import { SpoilerLog } from '../../types/SpoilerLog';
 import { RootState } from '../../provider/store';
 import { toggleSpoilers } from '../../provider/appReducer';
 
@@ -53,7 +53,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     </Stack>
                     <Stack spacing="0.25em">
                         <Text>Settings</Text>
-                        <Code>{spoilerLog.settings}</Code>
+                        <Code>{spoilerLog.settingsString}</Code>
                     </Stack>
                 </Flex>
                 <Flex>

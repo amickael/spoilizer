@@ -12,8 +12,8 @@ import {
     Select,
     useColorMode,
 } from '@chakra-ui/core';
-import { Item as IItem } from '../../types/spoilerLog';
 import sortBy from 'lodash/sortBy';
+import { Item as IItem } from '../../types/Item';
 
 interface ItemListProps {
     title?: string;

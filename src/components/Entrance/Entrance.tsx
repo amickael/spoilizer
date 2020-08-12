@@ -8,10 +8,10 @@ import {
     Box,
     useColorMode,
 } from '@chakra-ui/core';
-import { Entrance as IEntrance } from '../../types/spoilerLog';
 import { RootState } from '../../provider/store';
 import { checkEntrance, uncheckEntrance } from '../../provider/appReducer';
 import md5 from 'md5';
+import { Entrance as IEntrance } from '../../types/Entrance';
 
 interface EntranceProps extends IEntrance {
     hideSpoilers?: boolean;

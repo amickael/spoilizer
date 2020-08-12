@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/core';
-import { PlaythroughSphere } from '../../../types/spoilerLog';
 import { ItemList } from '../../../components/ItemList';
+import { PlaythroughSphere } from '../../../types/Item';
 
 export interface PlaythroughProps {
     playthroughSpheres: PlaythroughSphere[];

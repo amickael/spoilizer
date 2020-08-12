@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SpoilerLog } from '../types/spoilerLog';
+import { SpoilerLog } from '../types/SpoilerLog';
 
 export const initialState = {
     spoilerLog: undefined as SpoilerLog | SpoilerLog[] | undefined,
