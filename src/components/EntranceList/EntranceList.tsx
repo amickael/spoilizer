@@ -9,16 +9,19 @@ interface EntranceListProps {
     title?: string;
     entranceList: IEntrance[];
     hideSearch?: boolean;
+    hideSpoilers?: boolean;
 }
 
 const MemoEntrance = React.memo(Entrance);
 const EntranceList = ({
-    title,
+    title = '',
     entranceList,
-    hideSearch,
+    hideSearch = false,
+    hideSpoilers = false,
 }: EntranceListProps) => {
     const sortedData = sortBy(entranceList, 'entrance'),
-        [filteredData, setFilteredData] = useState<IEntrance[]>(sortedData);
+        [filteredData, setFilteredData] = useState<IEntrance[]>(sortedData),
+        searchKeys = hideSpoilers ? ['entrance'] : ['entrance', 'destination'];
 
     return (
         <Flex direction="column" width="100%">
@@ -33,7 +36,7 @@ const EntranceList = ({
                     <Box width="35%">
                         <Search
                             collection={sortedData}
-                            keys={['destination']}
+                            keys={searchKeys}
                             onSearch={setFilteredData}
                         />
                     </Box>
@@ -49,6 +52,7 @@ const EntranceList = ({
                         entrance={entrance.entrance}
                         destination={entrance.destination}
                         origin={entrance.origin}
+                        hideSpoilers={hideSpoilers}
                     />
                 ))}
             </Grid>

@@ -20,6 +20,7 @@ interface ItemListProps {
     itemList: IItem[];
     hideSearch?: boolean;
     disablePagination?: boolean;
+    hideSpoilers?: boolean;
 }
 
 const MemoItem = React.memo(Item);
@@ -28,6 +29,7 @@ const ItemList = ({
     itemList,
     hideSearch = false,
     disablePagination = false,
+    hideSpoilers = false,
 }: ItemListProps) => {
     const { colorMode } = useColorMode(),
         bgColor = {
@@ -43,7 +45,8 @@ const ItemList = ({
         pageSizeOptions = [25, 50, 75, 100],
         [pageSize, setPageSize] = useState(
             disablePagination ? sortedData.length : 50
-        );
+        ),
+        searchKeys = hideSpoilers ? ['location'] : ['location', 'item'];
 
     const handlePageSizeChange = (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -74,7 +77,7 @@ const ItemList = ({
                     <Box width="35%">
                         <Search
                             collection={sortedData}
-                            keys={['item']}
+                            keys={searchKeys}
                             onSearch={setFilteredData}
                         />
                     </Box>
@@ -85,7 +88,11 @@ const ItemList = ({
                 gap={2}
             >
                 {windowedData.map((item) => (
-                    <MemoItem key={`${item.location}${item.item}`} {...item} />
+                    <MemoItem
+                        key={`${item.location}${item.item}`}
+                        {...item}
+                        hideSpoilers={hideSpoilers}
+                    />
                 ))}
             </Grid>
             {numPages > 1 && (

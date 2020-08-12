@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    Box,
     Stack,
     Badge,
     Text,
@@ -11,10 +12,21 @@ import {
 } from '@chakra-ui/core';
 import { checkSpoiler, uncheckSpoiler } from '../../provider/appReducer';
 import { RootState } from '../../provider/store';
-import { Item as ItemProps } from '../../types/spoilerLog';
+import { Item as IITem } from '../../types/spoilerLog';
 import md5 from 'md5';
 
-const Item = ({ item, location, price, model, player }: ItemProps) => {
+interface ItemProps extends IITem {
+    hideSpoilers?: boolean;
+}
+
+const Item = ({
+    item,
+    location,
+    price,
+    model,
+    player,
+    hideSpoilers = false,
+}: ItemProps) => {
     const { colorMode } = useColorMode(),
         checkedSpoilers = useSelector(
             (state: RootState) => state.checkedSpoilers
@@ -26,15 +38,27 @@ const Item = ({ item, location, price, model, player }: ItemProps) => {
             dark: isChecked ? 'gray.600' : 'gray.900',
             light: isChecked ? 'gray.200' : 'gray.100',
         },
-        borderColor = { dark: 'gray.600', light: 'gray.200' };
+        borderColor = { dark: 'gray.600', light: 'gray.200' },
+        [isHidden, setIsHidden] = useState(hideSpoilers);
+
+    useEffect(() => {
+        setIsHidden(!isChecked && hideSpoilers);
+    }, [isChecked, hideSpoilers]);
 
     const handleChange = () => {
-        if (isChecked) {
-            dispatch(uncheckSpoiler(id));
-        } else {
-            dispatch(checkSpoiler(id));
-        }
-    };
+            if (isChecked) {
+                dispatch(uncheckSpoiler(id));
+            } else {
+                dispatch(checkSpoiler(id));
+            }
+        },
+        handleContextMenu = (event: React.MouseEvent<any, MouseEvent>) => {
+            event.preventDefault();
+            if (hideSpoilers) {
+                setIsHidden(!isHidden);
+            }
+            return false;
+        };
 
     return (
         <Stack
@@ -44,6 +68,7 @@ const Item = ({ item, location, price, model, player }: ItemProps) => {
             borderRadius={5}
             borderColor={borderColor[colorMode]}
             borderWidth={1}
+            onContextMenu={handleContextMenu}
         >
             <Stack isInline justify="space-between">
                 <Heading size="sm">{location}</Heading>
@@ -53,15 +78,17 @@ const Item = ({ item, location, price, model, player }: ItemProps) => {
                     aria-label="toggle-inventory"
                 />
             </Stack>
-            <Text>{item}</Text>
+            <Box bg={isHidden ? borderColor[colorMode] : undefined}>
+                <Text opacity={isHidden ? 0 : 100}>{item}</Text>
+            </Box>
             <Stack isInline>
-                {!!player && (
+                {!!player && !isHidden && (
                     <Badge variantColor="blue" marginRight="0.5em">
                         <i className="fas fa-user" />
                         &nbsp;Player {player}
                     </Badge>
                 )}
-                {!!price && (
+                {!!price && !isHidden && (
                     <Tooltip
                         label="Item price"
                         aria-label="price-tooltip"
@@ -74,7 +101,7 @@ const Item = ({ item, location, price, model, player }: ItemProps) => {
                         </Badge>
                     </Tooltip>
                 )}
-                {!!model && (
+                {!!model && !isHidden && (
                     <Tooltip
                         label="Visual model"
                         aria-label="model-tooltip"

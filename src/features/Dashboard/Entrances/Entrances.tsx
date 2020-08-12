@@ -4,10 +4,17 @@ import { Entrance } from '../../../types/spoilerLog';
 
 interface EntrancesProps {
     entranceList: Entrance[];
+    hideSpoilers?: boolean;
 }
 
-const Entrances = ({ entranceList }: EntrancesProps) => {
-    return <EntranceList title="Entrances" entranceList={entranceList} />;
+const Entrances = ({ entranceList, hideSpoilers = false }: EntrancesProps) => {
+    return (
+        <EntranceList
+            title="Entrances"
+            entranceList={entranceList}
+            hideSpoilers={hideSpoilers}
+        />
+    );
 };
 
 export { Entrances };

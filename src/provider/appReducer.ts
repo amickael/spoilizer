@@ -5,6 +5,7 @@ export const initialState = {
     spoilerLog: undefined as SpoilerLog | SpoilerLog[] | undefined,
     checkedSpoilers: [] as string[],
     checkedEntrances: [] as string[],
+    hideSpoilers: true,
 };
 const app = createSlice({
     name: 'app',
@@ -35,6 +36,9 @@ const app = createSlice({
                 (entrance) => entrance !== action.payload
             );
         },
+        toggleSpoilers(state) {
+            state.hideSpoilers = !state.hideSpoilers;
+        },
         reset(state) {
             state.spoilerLog = undefined;
             state.checkedSpoilers = [];
@@ -50,6 +54,7 @@ export const {
     uncheckSpoiler,
     checkEntrance,
     uncheckEntrance,
+    toggleSpoilers,
     reset,
 } = actions;
 

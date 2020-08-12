@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Flex,
     Button,
@@ -10,6 +11,8 @@ import {
     Tab,
     TabPanels,
     TabPanel,
+    Switch,
+    FormLabel,
     useColorMode,
 } from '@chakra-ui/core';
 import { AllItems } from './AllItems';
@@ -18,6 +21,8 @@ import { Playthrough } from './Playthrough';
 import { Entrances } from './Entrances';
 import { EntrancePlaythrough } from './EntrancePlaythrough';
 import { SpoilerLog } from '../../types/spoilerLog';
+import { RootState } from '../../provider/store';
+import { toggleSpoilers } from '../../provider/appReducer';
 
 interface DashboardProps {
     spoilerLog: SpoilerLog;
@@ -27,7 +32,9 @@ interface DashboardProps {
 const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
     const { colorMode } = useColorMode(),
         bgColor = { dark: 'gray.700', light: 'gray.50' },
-        [tabIndex, setTabIndex] = useState(0);
+        [tabIndex, setTabIndex] = useState(0),
+        hideSpoilers = useSelector((state: RootState) => state.hideSpoilers),
+        dispatch = useDispatch();
 
     return (
         <Flex width="100%" direction="column">
@@ -49,10 +56,22 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                         <Code>{spoilerLog.settings}</Code>
                     </Stack>
                 </Flex>
-                <Button onClick={onReset}>
-                    <i className="fas fa-undo" />
-                    &nbsp;Reset
-                </Button>
+                <Flex>
+                    <Flex justify="center" align="center" marginRight="1em">
+                        <FormLabel htmlFor="hide-spoilers">
+                            Hide spoilers
+                        </FormLabel>
+                        <Switch
+                            id="hide-spoilers"
+                            isChecked={hideSpoilers}
+                            onChange={() => dispatch(toggleSpoilers())}
+                        />
+                    </Flex>
+                    <Button onClick={onReset}>
+                        <i className="fas fa-undo" />
+                        &nbsp;Reset
+                    </Button>
+                </Flex>
             </Flex>
             <Flex
                 padding="0.5em"
@@ -91,13 +110,17 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     <TabPanels padding="0.5em">
                         <TabPanel>
                             {tabIndex === 0 && (
-                                <AllItems itemList={spoilerLog?.items ?? []} />
+                                <AllItems
+                                    itemList={spoilerLog?.items ?? []}
+                                    hideSpoilers={hideSpoilers}
+                                />
                             )}
                         </TabPanel>
                         <TabPanel>
                             {tabIndex === 1 && (
                                 <WayOfTheHero
                                     itemList={spoilerLog?.woth ?? []}
+                                    hideSpoilers={hideSpoilers}
                                 />
                             )}
                         </TabPanel>
@@ -107,6 +130,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                                     playthroughSpheres={
                                         spoilerLog?.playthrough ?? []
                                     }
+                                    hideSpoilers={hideSpoilers}
                                 />
                             )}
                         </TabPanel>
@@ -114,6 +138,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             {tabIndex === 3 && (
                                 <Entrances
                                     entranceList={spoilerLog?.entrances ?? []}
+                                    hideSpoilers={hideSpoilers}
                                 />
                             )}
                         </TabPanel>
@@ -123,6 +148,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                                     entranceSpheres={
                                         spoilerLog?.entrancePlaythrough ?? []
                                     }
+                                    hideSpoilers={hideSpoilers}
                                 />
                             )}
                         </TabPanel>

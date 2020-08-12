@@ -5,9 +5,13 @@ import { ItemList } from '../../../components/ItemList';
 
 export interface PlaythroughProps {
     playthroughSpheres: PlaythroughSphere[];
+    hideSpoilers?: boolean;
 }
 
-const Playthrough = ({ playthroughSpheres }: PlaythroughProps) => {
+const Playthrough = ({
+    playthroughSpheres,
+    hideSpoilers = false,
+}: PlaythroughProps) => {
     return (
         <React.Fragment>
             {playthroughSpheres.map((step, i) => (
@@ -17,6 +21,7 @@ const Playthrough = ({ playthroughSpheres }: PlaythroughProps) => {
                         itemList={step.items}
                         hideSearch
                         disablePagination
+                        hideSpoilers={hideSpoilers}
                     />
                 </Box>
             ))}

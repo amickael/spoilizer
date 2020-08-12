@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Stack, Text, Heading, Checkbox, useColorMode } from '@chakra-ui/core';
+import {
+    Stack,
+    Text,
+    Heading,
+    Checkbox,
+    Box,
+    useColorMode,
+} from '@chakra-ui/core';
 import { Entrance as IEntrance } from '../../types/spoilerLog';
 import { RootState } from '../../provider/store';
 import { checkEntrance, uncheckEntrance } from '../../provider/appReducer';
 import md5 from 'md5';
 
-const Entrance = ({ entrance, destination, origin }: IEntrance) => {
+interface EntranceProps extends IEntrance {
+    hideSpoilers?: boolean;
+}
+
+const Entrance = ({
+    entrance,
+    destination,
+    origin,
+    hideSpoilers = false,
+}: EntranceProps) => {
     const { colorMode } = useColorMode(),
         id = md5(`${entrance}${destination}`),
         dispatch = useDispatch(),
@@ -18,15 +34,27 @@ const Entrance = ({ entrance, destination, origin }: IEntrance) => {
             dark: isChecked ? 'gray.600' : 'gray.900',
             light: isChecked ? 'gray.200' : 'gray.100',
         },
-        borderColor = { dark: 'gray.600', light: 'gray.200' };
+        borderColor = { dark: 'gray.600', light: 'gray.200' },
+        [isHidden, setIsHidden] = useState(hideSpoilers);
+
+    useEffect(() => {
+        setIsHidden(!isChecked && hideSpoilers);
+    }, [isChecked, hideSpoilers]);
 
     const handleChange = () => {
-        if (isChecked) {
-            dispatch(uncheckEntrance(id));
-        } else {
-            dispatch(checkEntrance(id));
-        }
-    };
+            if (isChecked) {
+                dispatch(uncheckEntrance(id));
+            } else {
+                dispatch(checkEntrance(id));
+            }
+        },
+        handleContextMenu = (event: React.MouseEvent<any, MouseEvent>) => {
+            event.preventDefault();
+            if (hideSpoilers) {
+                setIsHidden(!isHidden);
+            }
+            return false;
+        };
 
     return (
         <Stack
@@ -36,6 +64,7 @@ const Entrance = ({ entrance, destination, origin }: IEntrance) => {
             borderRadius={5}
             borderColor={borderColor[colorMode]}
             borderWidth={1}
+            onContextMenu={handleContextMenu}
         >
             <Stack isInline justify="space-between">
                 <Heading size="sm">{entrance.replace('->', '➤')}</Heading>
@@ -45,8 +74,10 @@ const Entrance = ({ entrance, destination, origin }: IEntrance) => {
                     aria-label="toggle-entrance"
                 />
             </Stack>
-            <Text>{destination}</Text>
-            {origin && (
+            <Box bg={isHidden ? borderColor[colorMode] : undefined}>
+                <Text opacity={isHidden ? 0 : 100}>{destination}</Text>
+            </Box>
+            {origin && !isHidden && (
                 <Text fontSize="sm">
                     <i className="fas fa-dungeon" />
                     &nbsp;{origin}

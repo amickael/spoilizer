@@ -5,9 +5,13 @@ import { EntranceList } from '../../../components/EntranceList';
 
 export interface EntrancePlaythroughProps {
     entranceSpheres: EntranceSphere[];
+    hideSpoilers?: boolean;
 }
 
-const EntrancePlaythrough = ({ entranceSpheres }: EntrancePlaythroughProps) => {
+const EntrancePlaythrough = ({
+    entranceSpheres,
+    hideSpoilers = false,
+}: EntrancePlaythroughProps) => {
     return (
         <React.Fragment>
             {entranceSpheres.map((sphere, i) => (
@@ -15,6 +19,7 @@ const EntrancePlaythrough = ({ entranceSpheres }: EntrancePlaythroughProps) => {
                     <EntranceList
                         title={`Sphere ${sphere.sphere}`}
                         entranceList={sphere.entrances}
+                        hideSpoilers={hideSpoilers}
                         hideSearch
                     />
                 </Box>
