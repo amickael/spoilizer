@@ -20,6 +20,7 @@ import { WayOfTheHero } from './WayOfTheHero';
 import { Playthrough } from './Playthrough';
 import { Entrances } from './Entrances';
 import { EntrancePlaythrough } from './EntrancePlaythrough';
+import { Settings } from './Settings';
 import { SpoilerLog } from '../../types/SpoilerLog';
 import { RootState } from '../../provider/store';
 import { toggleSpoilers } from '../../provider/appReducer';
@@ -86,26 +87,30 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             <i className="fas fa-clipboard-list-check" />
                             <Text marginLeft={2}>All Items</Text>
                         </Tab>
-                        <Tab>
+                        <Tab hidden={!(spoilerLog?.woth ?? []).length}>
                             <i className="fas fa-sword" />
                             <Text marginLeft={2}>Way of the Hero</Text>
                         </Tab>
-                        <Tab>
+                        <Tab hidden={!(spoilerLog?.playthrough ?? []).length}>
                             <i className="fas fa-scroll-old" />
                             <Text marginLeft={2}>Playthrough</Text>
                         </Tab>
-                        {(spoilerLog?.entrances ?? []).length && (
-                            <Tab>
-                                <i className="fas fa-dungeon" />
-                                <Text marginLeft={2}>Entrances</Text>
-                            </Tab>
-                        )}
-                        {(spoilerLog?.entrancePlaythrough ?? []).length && (
-                            <Tab>
-                                <i className="fas fa-map-signs" />
-                                <Text marginLeft={2}>Entrance Playthrough</Text>
-                            </Tab>
-                        )}
+                        <Tab hidden={!(spoilerLog?.entrances ?? []).length}>
+                            <i className="fas fa-dungeon" />
+                            <Text marginLeft={2}>Entrances</Text>
+                        </Tab>
+                        <Tab
+                            hidden={
+                                !(spoilerLog?.entrancePlaythrough ?? []).length
+                            }
+                        >
+                            <i className="fas fa-map-signs" />
+                            <Text marginLeft={2}>Entrance Playthrough</Text>
+                        </Tab>
+                        <Tab>
+                            <i className="fas fa-sliders-h" />
+                            <Text marginLeft={2}>Settings</Text>
+                        </Tab>
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
@@ -149,6 +154,13 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                                         spoilerLog?.entrancePlaythrough ?? []
                                     }
                                     hideSpoilers={hideSpoilers}
+                                />
+                            )}
+                        </TabPanel>
+                        <TabPanel>
+                            {tabIndex === 5 && (
+                                <Settings
+                                    settings={spoilerLog?.settings ?? {}}
                                 />
                             )}
                         </TabPanel>
