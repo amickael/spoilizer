@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Stack,
@@ -11,21 +11,15 @@ import {
 } from '@chakra-ui/core';
 import { checkSpoiler, uncheckSpoiler } from '../../provider/appReducer';
 import { RootState } from '../../provider/store';
+import { Item as ItemProps } from '../../types/spoilerLog';
 import md5 from 'md5';
 
-interface SpoilerProps {
-    item: string;
-    location: string;
-    price?: number;
-    model?: string;
-}
-
-const Item = ({ item, location, price, model }: SpoilerProps) => {
+const Item = ({ item, location, price, model, player }: ItemProps) => {
     const { colorMode } = useColorMode(),
         checkedSpoilers = useSelector(
             (state: RootState) => state.checkedSpoilers
         ),
-        id = useMemo(() => md5(`${location}${item}`), [location, item]),
+        id = md5(`${location}${item}`),
         dispatch = useDispatch(),
         isChecked = checkedSpoilers.includes(id),
         bgColor = {
@@ -61,6 +55,12 @@ const Item = ({ item, location, price, model }: SpoilerProps) => {
             </Stack>
             <Text>{item}</Text>
             <Stack isInline>
+                {!!player && (
+                    <Badge variantColor="blue" marginRight="0.5em">
+                        <i className="fas fa-user" />
+                        &nbsp;Player {player}
+                    </Badge>
+                )}
                 {!!price && (
                     <Tooltip
                         label="Item price"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Flex,
     Button,
@@ -16,6 +16,7 @@ import { AllItems } from './AllItems';
 import { WayOfTheHero } from './WayOfTheHero';
 import { Playthrough } from './Playthrough';
 import { Entrances } from './Entrances';
+import { EntrancePlaythrough } from './EntrancePlaythrough';
 import { SpoilerLog } from '../../types/spoilerLog';
 
 interface DashboardProps {
@@ -25,7 +26,8 @@ interface DashboardProps {
 
 const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
     const { colorMode } = useColorMode(),
-        bgColor = { dark: 'gray.700', light: 'gray.50' };
+        bgColor = { dark: 'gray.700', light: 'gray.50' },
+        [tabIndex, setTabIndex] = useState(0);
 
     return (
         <Flex width="100%" direction="column">
@@ -59,7 +61,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                 borderRadius={5}
                 bg={bgColor[colorMode]}
             >
-                <Tabs width="100%">
+                <Tabs width="100%" onChange={setTabIndex}>
                     <TabList>
                         <Tab>
                             <i className="fas fa-clipboard-list-check" />
@@ -70,28 +72,59 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             <Text marginLeft={2}>Way of the Hero</Text>
                         </Tab>
                         <Tab>
-                            <i className="fas fa-directions" />
+                            <i className="fas fa-scroll-old" />
                             <Text marginLeft={2}>Playthrough</Text>
                         </Tab>
-                        <Tab>
-                            <i className="fas fa-dungeon" />
-                            <Text marginLeft={2}>Entrances</Text>
-                        </Tab>
+                        {(spoilerLog?.entrances ?? []).length && (
+                            <Tab>
+                                <i className="fas fa-dungeon" />
+                                <Text marginLeft={2}>Entrances</Text>
+                            </Tab>
+                        )}
+                        {(spoilerLog?.entrancePlaythrough ?? []).length && (
+                            <Tab>
+                                <i className="fas fa-map-signs" />
+                                <Text marginLeft={2}>Entrance Playthrough</Text>
+                            </Tab>
+                        )}
                     </TabList>
                     <TabPanels padding="0.5em">
                         <TabPanel>
-                            <AllItems itemList={spoilerLog.items} />
+                            {tabIndex === 0 && (
+                                <AllItems itemList={spoilerLog?.items ?? []} />
+                            )}
                         </TabPanel>
                         <TabPanel>
-                            <WayOfTheHero itemList={spoilerLog.woth} />
+                            {tabIndex === 1 && (
+                                <WayOfTheHero
+                                    itemList={spoilerLog?.woth ?? []}
+                                />
+                            )}
                         </TabPanel>
                         <TabPanel>
-                            <Playthrough
-                                playthroughSteps={spoilerLog.playthrough}
-                            />
+                            {tabIndex === 2 && (
+                                <Playthrough
+                                    playthroughSpheres={
+                                        spoilerLog?.playthrough ?? []
+                                    }
+                                />
+                            )}
                         </TabPanel>
                         <TabPanel>
-                            <Entrances entranceList={spoilerLog.entrances} />
+                            {tabIndex === 3 && (
+                                <Entrances
+                                    entranceList={spoilerLog?.entrances ?? []}
+                                />
+                            )}
+                        </TabPanel>
+                        <TabPanel>
+                            {tabIndex === 4 && (
+                                <EntrancePlaythrough
+                                    entranceSpheres={
+                                        spoilerLog?.entrancePlaythrough ?? []
+                                    }
+                                />
+                            )}
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
