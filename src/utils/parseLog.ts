@@ -122,7 +122,15 @@ const logSchema = yup.object().shape({
 /* ---------------------------------------------------------------------------------------------------------------------
 Main Functions
 --------------------------------------------------------------------------------------------------------------------- */
-export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
+export const parseLog = async (spoilerLog: {
+        [key: string]: any;
+    }): Promise<SpoilerLog> => {
+        // Check if valid MW file
+        if ((spoilerLog?.settings?.world_count ?? 0) > 1) {
+            throw Error('Invalid log file');
+        }
+
+        // Parse
         const source = await logSchema.validate(spoilerLog, validationOptions),
             locations = Object.entries(source?.locations ?? {}).map(
                 ([location, item]) => ({
@@ -226,7 +234,15 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
             entrancePlaythrough,
         };
     },
-    parseMultiLog = async (spoilerLog: object): Promise<SpoilerLog[]> => {
+    parseMultiLog = async (spoilerLog: {
+        [key: string]: any;
+    }): Promise<SpoilerLog[]> => {
+        // Check if valid MW file
+        if ((spoilerLog?.settings?.world_count ?? 0) < 2) {
+            throw Error('Invalid log file');
+        }
+
+        // Parse
         const source = await mwLogSchema.validate(
                 spoilerLog,
                 validationOptions
