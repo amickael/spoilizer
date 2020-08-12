@@ -7,15 +7,11 @@ import {
     TabPanel,
     Text,
     Stack,
-    Code,
-    Flex,
     Button,
     useColorMode,
 } from '@chakra-ui/core';
 import { Settings as ISettings } from '../../../types/Settings';
-import { Search } from '../../../components/Search';
-import sortBy from 'lodash/sortBy';
-import startCase from 'lodash/startCase';
+import { OptionList } from '../../../components';
 import ReactJson from 'react-json-view';
 
 interface SettingsProps {
@@ -29,14 +25,6 @@ const Settings = ({ settings }: SettingsProps) => {
             light: 'summerfruit:inverted',
         },
         [tabIndex, setTabIndex] = useState(0),
-        sortedData = sortBy(
-            Object.entries(settings).map(([key, value]) => ({
-                option: startCase(key),
-                value: (value || 'N/A').toString(),
-            })),
-            'option'
-        ),
-        [filteredData, setFilteredData] = useState(sortedData),
         rawJson = JSON.parse(localStorage.getItem('rawLog') ?? '{}');
 
     const handleDownload = () => {
@@ -67,23 +55,7 @@ const Settings = ({ settings }: SettingsProps) => {
             <TabPanels padding="0.5em">
                 <TabPanel>
                     <Stack>
-                        <Search
-                            collection={sortedData}
-                            keys={['option']}
-                            onSearch={setFilteredData}
-                        />
-                        <Flex direction="column">
-                            {filteredData.map((item) => (
-                                <Flex
-                                    key={item.option}
-                                    justify="space-between"
-                                    align="center"
-                                >
-                                    <Text>{item.option}</Text>
-                                    <Code>{item.value}</Code>
-                                </Flex>
-                            ))}
-                        </Flex>
+                        <OptionList optionList={settings} />
                     </Stack>
                 </TabPanel>
                 <TabPanel>
