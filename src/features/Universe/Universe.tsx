@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, TabList, TabPanels, TabPanel, Text } from '@chakra-ui/core';
 import { Dashboard } from '../Dashboard';
-import { SpoilerLog } from '../../types/spoilerLog';
+import { SpoilerLog } from '../../types/SpoilerLog';
 
 interface UniverseProps {
     spoilerLogs: SpoilerLog[];

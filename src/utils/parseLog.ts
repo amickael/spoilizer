@@ -1,84 +1,14 @@
 import * as yup from 'yup';
-import { SpoilerLog, Item } from '../types/spoilerLog';
-
-/* ---------------------------------------------------------------------------------------------------------------------
-Base Schemas
---------------------------------------------------------------------------------------------------------------------- */
-export const items = yup.lazy((value) => {
-        if (typeof value === 'object') {
-            const shape: { [key: string]: any } = {};
-            Object.keys(value as object).forEach((key) => {
-                shape[key] = yup.lazy((value) => {
-                    switch (typeof value) {
-                        case 'string':
-                            return yup.string();
-                        case 'object':
-                            return yup.object().shape({
-                                item: yup.string(),
-                                price: yup.number().integer().optional(),
-                                model: yup.string().optional(),
-                                player: yup.number().integer().optional(),
-                            });
-                        default:
-                            return yup.mixed().typeError('Invalid spoiler');
-                    }
-                });
-            });
-            return yup.object().shape(shape);
-        } else {
-            return yup.mixed().typeError('Invalid location shape');
-        }
-    }),
-    entrances = yup.lazy((value) => {
-        if (typeof value === 'object') {
-            const shape: { [key: string]: any } = {};
-            Object.keys(value as object).forEach((key) => {
-                shape[key] = yup.lazy((value) => {
-                    switch (typeof value) {
-                        case 'string':
-                            return yup.string();
-                        case 'object':
-                            return yup.object().shape({
-                                region: yup.string(),
-                                from: yup.string(),
-                            });
-                        default:
-                            return yup.mixed().typeError('Invalid entrance');
-                    }
-                });
-            });
-            return yup.object().shape(shape);
-        } else {
-            return yup.mixed().typeError('Invalid entrance');
-        }
-    }),
-    playthrough = yup.lazy((value) => {
-        if (typeof value === 'object') {
-            const shape: { [key: string]: any } = {};
-            Object.keys(value as object).forEach((key) => {
-                shape[key] = items;
-            });
-            return yup.object().shape(shape);
-        } else {
-            return yup.mixed().typeError('Invalid playthrough shape');
-        }
-    }),
-    entrancePlaythrough = yup.lazy((value) => {
-        if (typeof value === 'object') {
-            const shape: { [key: string]: any } = {};
-            Object.keys(value as object).forEach((key) => {
-                shape[key] = entrances;
-            });
-            return yup.object().shape(shape);
-        } else {
-            return yup.mixed().typeError('Invalid entrance playthrough shape');
-        }
-    });
+import * as schema from '../schema';
+import { SpoilerLog } from '../types/SpoilerLog';
+import { Item } from '../types/Item';
+import camelCase from 'lodash/camelCase';
+import { Settings } from '../types/Settings';
 
 /* ---------------------------------------------------------------------------------------------------------------------
 Utils
 --------------------------------------------------------------------------------------------------------------------- */
-const makeMulti = (baseSchema = items) => {
+const makeMulti = (baseSchema = schema.item) => {
     return yup.lazy((value) => {
         if (typeof value === 'object') {
             const shape: { [key: string]: any } = {};
@@ -97,21 +27,23 @@ Log Schemas
 --------------------------------------------------------------------------------------------------------------------- */
 const logSchema = yup.object().shape({
         ':seed': yup.string(),
+        settings: schema.settings,
         ':settings_string': yup.string(),
-        locations: items,
-        ':woth_locations': items,
-        ':playthrough': playthrough,
-        entrances: entrances,
-        ':entrance_playthrough': entrancePlaythrough,
+        locations: schema.item,
+        ':woth_locations': schema.item,
+        ':playthrough': schema.playthrough,
+        entrances: schema.entrance,
+        ':entrance_playthrough': schema.entrancePlaythrough,
     }),
     mwLogSchema = yup.object().shape({
         ':seed': yup.string(),
+        settings: schema.settings,
         ':settings_string': yup.string(),
-        locations: makeMulti(items),
-        ':woth_locations': makeMulti(items),
-        ':playthrough': playthrough,
-        entrances: makeMulti(entrances),
-        ':entrance_playthrough': entrancePlaythrough,
+        locations: makeMulti(schema.item),
+        ':woth_locations': makeMulti(schema.item),
+        ':playthrough': schema.playthrough,
+        entrances: makeMulti(schema.entrance),
+        ':entrance_playthrough': schema.entrancePlaythrough,
     }),
     validationOptions: yup.ValidateOptions = {
         stripUnknown: true,
@@ -224,9 +156,17 @@ export const parseLog = async (spoilerLog: {
                 ),
             }));
 
+        const settings: { [key: string]: any } = {};
+        Object.entries((source?.settings as object) ?? {}).forEach(
+            ([key, value]) => {
+                settings[camelCase(key)] = value;
+            }
+        );
+
         return {
             seed: source?.[':seed'] ?? '',
-            settings: source?.[':settings_string'] ?? '',
+            settings: settings as Settings,
+            settingsString: source?.[':settings_string'] ?? '',
             items: locations as Item[],
             woth: essentials as Item[],
             playthrough,
@@ -342,9 +282,18 @@ export const parseLog = async (spoilerLog: {
                         })
                     ),
                 }));
+
+            const settings: { [key: string]: any } = {};
+            Object.entries((source?.settings as object) ?? {}).forEach(
+                ([key, value]) => {
+                    settings[camelCase(key)] = value;
+                }
+            );
+
             logs.push({
                 seed: source?.[':seed'] ?? '',
-                settings: source?.[':settings_string'] ?? '',
+                settings: settings as Settings,
+                settingsString: source?.[':settings_string'] ?? '',
                 items: locations,
                 woth: essentials,
                 playthrough,

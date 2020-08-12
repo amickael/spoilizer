@@ -12,8 +12,8 @@ import {
 } from '@chakra-ui/core';
 import { checkSpoiler, uncheckSpoiler } from '../../provider/appReducer';
 import { RootState } from '../../provider/store';
-import { Item as IITem } from '../../types/spoilerLog';
 import md5 from 'md5';
+import { Item as IITem } from '../../types/Item';
 
 interface ItemProps extends IITem {
     hideSpoilers?: boolean;

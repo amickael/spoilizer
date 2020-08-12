@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Entrance } from '../Entrance';
 import { Grid, Flex, Heading, Box } from '@chakra-ui/core';
 import { Search } from '../Search';
-import { Entrance as IEntrance } from '../../types/spoilerLog';
 import sortBy from 'lodash/sortBy';
+import { Entrance as IEntrance } from '../../types/Entrance';
 
 interface EntranceListProps {
     title?: string;

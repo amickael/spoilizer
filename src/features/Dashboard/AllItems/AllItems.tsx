@@ -1,6 +1,6 @@
 import React from 'react';
 import { ItemList } from '../../../components/ItemList';
-import { Item } from '../../../types/spoilerLog';
+import { Item } from '../../../types/Item';
 
 interface AllItemsProps {
     itemList: Item[];

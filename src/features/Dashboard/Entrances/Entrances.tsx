@@ -1,6 +1,6 @@
 import React from 'react';
 import { EntranceList } from '../../../components/EntranceList';
-import { Entrance } from '../../../types/spoilerLog';
+import { Entrance } from '../../../types/Entrance';
 
 interface EntrancesProps {
     entranceList: Entrance[];

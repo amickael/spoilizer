@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/core';
-import { EntranceSphere } from '../../../types/spoilerLog';
 import { EntranceList } from '../../../components/EntranceList';
+import { EntranceSphere } from '../../../types/Entrance';
 
 export interface EntrancePlaythroughProps {
     entranceSpheres: EntranceSphere[];
