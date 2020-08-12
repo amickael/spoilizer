@@ -16,6 +16,7 @@ const Playthrough = ({ playthroughSpheres }: PlaythroughProps) => {
                         title={`Sphere ${step.sphere}`}
                         itemList={step.items}
                         hideSearch
+                        disablePagination
                     />
                 </Box>
             ))}
