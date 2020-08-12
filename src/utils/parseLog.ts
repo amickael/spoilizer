@@ -112,15 +112,18 @@ const logSchema = yup.object().shape({
         ':playthrough': playthrough,
         entrances: makeMulti(entrances),
         ':entrance_playthrough': entrancePlaythrough,
-    });
+    }),
+    validationOptions: yup.ValidateOptions = {
+        stripUnknown: true,
+        recursive: false,
+        strict: true,
+    };
 
 /* ---------------------------------------------------------------------------------------------------------------------
 Main Functions
 --------------------------------------------------------------------------------------------------------------------- */
 export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
-        const source = await logSchema.validate(spoilerLog, {
-                stripUnknown: true,
-            }),
+        const source = await logSchema.validate(spoilerLog, validationOptions),
             locations = Object.entries(source?.locations ?? {}).map(
                 ([location, item]) => ({
                     location,
@@ -224,9 +227,10 @@ export const parseLog = async (spoilerLog: object): Promise<SpoilerLog> => {
         };
     },
     parseMultiLog = async (spoilerLog: object): Promise<SpoilerLog[]> => {
-        const source = await mwLogSchema.validate(spoilerLog, {
-                stripUnknown: true,
-            }),
+        const source = await mwLogSchema.validate(
+                spoilerLog,
+                validationOptions
+            ),
             worlds = Object.keys(source?.locations ?? {}),
             logs: SpoilerLog[] = [];
 

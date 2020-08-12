@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Stack, Text, Heading, Checkbox, useColorMode } from '@chakra-ui/core';
 import { Entrance as IEntrance } from '../../types/spoilerLog';
@@ -8,10 +8,7 @@ import md5 from 'md5';
 
 const Entrance = ({ entrance, destination, origin }: IEntrance) => {
     const { colorMode } = useColorMode(),
-        id = useMemo(() => md5(`${entrance}${destination}`), [
-            entrance,
-            destination,
-        ]),
+        id = md5(`${entrance}${destination}`),
         dispatch = useDispatch(),
         checkedEntrances = useSelector(
             (state: RootState) => state.checkedEntrances

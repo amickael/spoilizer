@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Stack,
@@ -19,7 +19,7 @@ const Item = ({ item, location, price, model, player }: ItemProps) => {
         checkedSpoilers = useSelector(
             (state: RootState) => state.checkedSpoilers
         ),
-        id = useMemo(() => md5(`${location}${item}`), [location, item]),
+        id = md5(`${location}${item}`),
         dispatch = useDispatch(),
         isChecked = checkedSpoilers.includes(id),
         bgColor = {

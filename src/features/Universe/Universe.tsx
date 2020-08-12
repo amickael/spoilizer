@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Tab, TabList, TabPanels, TabPanel, Text } from '@chakra-ui/core';
 import { Dashboard } from '../Dashboard';
 import { SpoilerLog } from '../../types/spoilerLog';
@@ -9,8 +9,10 @@ interface UniverseProps {
 }
 
 const Universe = ({ spoilerLogs, onReset }: UniverseProps) => {
+    const [tabIndex, setTabIndex] = useState(0);
+
     return (
-        <Tabs width="100%">
+        <Tabs width="100%" onChange={setTabIndex}>
             <TabList>
                 {spoilerLogs.map((spoilerLog) => (
                     <Tab key={`tab-${spoilerLog.world}`}>
@@ -20,9 +22,14 @@ const Universe = ({ spoilerLogs, onReset }: UniverseProps) => {
                 ))}
             </TabList>
             <TabPanels paddingY="0.5em">
-                {spoilerLogs.map((spoilerLog) => (
+                {spoilerLogs.map((spoilerLog, i) => (
                     <TabPanel key={`panel-${spoilerLog.world}`}>
-                        <Dashboard spoilerLog={spoilerLog} onReset={onReset} />
+                        {tabIndex === i && (
+                            <Dashboard
+                                spoilerLog={spoilerLog}
+                                onReset={onReset}
+                            />
+                        )}
                     </TabPanel>
                 ))}
             </TabPanels>

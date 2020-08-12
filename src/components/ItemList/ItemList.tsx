@@ -21,7 +21,7 @@ interface ItemListProps {
     hideSearch?: boolean;
 }
 
-const MemoSpoiler = React.memo(Item);
+const MemoItem = React.memo(Item);
 const ItemList = ({
     title = 'Items',
     itemList,
@@ -81,10 +81,7 @@ const ItemList = ({
                 gap={2}
             >
                 {windowedData.map((item) => (
-                    <MemoSpoiler
-                        key={`${item.location}${item.item}`}
-                        {...item}
-                    />
+                    <MemoItem key={`${item.location}${item.item}`} {...item} />
                 ))}
             </Grid>
             {numPages > 1 && (
@@ -109,6 +106,7 @@ const ItemList = ({
                             size="sm"
                             value={pageSize}
                             onChange={handlePageSizeChange}
+                            aria-label="select page size"
                         >
                             {pageSizeOptions.map((option) => (
                                 <option key={option} value={option}>
@@ -125,6 +123,7 @@ const ItemList = ({
                             size="sm"
                             isDisabled={currentPage === 0}
                             onClick={() => setCurrentPage(0)}
+                            aria-label="first page"
                         >
                             <i className="fas fa-angle-double-left" />
                         </Button>
@@ -132,6 +131,7 @@ const ItemList = ({
                             size="sm"
                             isDisabled={currentPage === 0}
                             onClick={() => setCurrentPage(currentPage - 1)}
+                            aria-label="previous page"
                         >
                             <i className="fas fa-angle-left" />
                             &nbsp;Back
@@ -140,6 +140,7 @@ const ItemList = ({
                             size="sm"
                             isDisabled={currentPage + 1 === numPages}
                             onClick={() => setCurrentPage(currentPage + 1)}
+                            aria-label="next page"
                         >
                             Next&nbsp;
                             <i className="fas fa-angle-right" />
@@ -148,6 +149,7 @@ const ItemList = ({
                             size="sm"
                             isDisabled={currentPage + 1 === numPages}
                             onClick={() => setCurrentPage(numPages - 1)}
+                            aria-label="last page"
                         >
                             <i className="fas fa-angle-double-right" />
                         </Button>

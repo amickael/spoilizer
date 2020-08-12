@@ -4,6 +4,13 @@ import { Flex, useToast } from '@chakra-ui/core';
 import { RootState } from './provider/store';
 import { setSpoilerLog, reset } from './provider/appReducer';
 import { Upload, Dashboard, Universe } from './features';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+
+const Fallback = ({ resetErrorBoundary }: FallbackProps) => {
+    resetErrorBoundary();
+    console.clear();
+    return <React.Fragment />;
+};
 
 const App = () => {
     const toast = useToast(),
@@ -11,15 +18,19 @@ const App = () => {
         { spoilerLog } = useSelector((state: RootState) => state);
 
     const handleError = () => {
-        toast({
-            title: 'Invalid format',
-            description: 'JSON file is not a valid spoiler log format',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top',
-        });
-    };
+            toast({
+                title: 'Invalid format',
+                description: 'JSON file is not a valid spoiler log format',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'top',
+            });
+        },
+        handleReset = () => {
+            localStorage.clear();
+            dispatch(reset());
+        };
 
     if (!spoilerLog) {
         return (
@@ -42,19 +53,15 @@ const App = () => {
     }
 
     return (
-        <Flex padding="1em" direction="column">
-            {Array.isArray(spoilerLog) ? (
-                <Universe
-                    spoilerLogs={spoilerLog}
-                    onReset={() => dispatch(reset())}
-                />
-            ) : (
-                <Dashboard
-                    spoilerLog={spoilerLog}
-                    onReset={() => dispatch(reset())}
-                />
-            )}
-        </Flex>
+        <ErrorBoundary FallbackComponent={Fallback} onReset={handleReset}>
+            <Flex padding="1em" direction="column">
+                {Array.isArray(spoilerLog) ? (
+                    <Universe spoilerLogs={spoilerLog} onReset={handleReset} />
+                ) : (
+                    <Dashboard spoilerLog={spoilerLog} onReset={handleReset} />
+                )}
+            </Flex>
+        </ErrorBoundary>
     );
 };
 
