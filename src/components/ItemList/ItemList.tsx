@@ -19,6 +19,7 @@ interface ItemListProps {
     title?: string;
     itemList: IItem[];
     hideSearch?: boolean;
+    disablePagination?: boolean;
 }
 
 const MemoItem = React.memo(Item);
@@ -26,6 +27,7 @@ const ItemList = ({
     title = 'Items',
     itemList,
     hideSearch = false,
+    disablePagination = false,
 }: ItemListProps) => {
     const { colorMode } = useColorMode(),
         bgColor = {
@@ -39,7 +41,9 @@ const ItemList = ({
         [numPages, setNumPages] = useState(0),
         [currentPage, setCurrentPage] = useState(0),
         pageSizeOptions = [25, 50, 75, 100],
-        [pageSize, setPageSize] = useState(50);
+        [pageSize, setPageSize] = useState(
+            disablePagination ? sortedData.length : 50
+        );
 
     const handlePageSizeChange = (
         event: React.ChangeEvent<HTMLSelectElement>
