@@ -84,7 +84,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                 <Tabs width="100%" onChange={setTabIndex}>
                     <TabList>
                         <Tab>
-                            <i className="fas fa-clipboard-list-check" />
+                            <i className="fas fa-flask-potion" />
                             <Text marginLeft={2}>All Items</Text>
                         </Tab>
                         <Tab hidden={!(spoilerLog?.woth ?? []).length}>
