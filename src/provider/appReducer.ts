@@ -39,11 +39,7 @@ const app = createSlice({
         toggleSpoilers(state) {
             state.hideSpoilers = !state.hideSpoilers;
         },
-        reset(state) {
-            state.spoilerLog = undefined;
-            state.checkedSpoilers = [];
-            state.checkedEntrances = [];
-        },
+        reset: () => initialState,
     },
 });
 
