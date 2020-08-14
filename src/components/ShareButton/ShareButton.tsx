@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Button,
-    Spinner,
-    useToast,
-    useClipboard,
-    IButton,
-} from '@chakra-ui/core';
+import { Button, useToast, useClipboard, IButton } from '@chakra-ui/core';
 import { postSpoilerLog } from '../../api/postSpoilerLog';
 
 interface ShareButtonProps {
@@ -71,13 +65,15 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
         };
 
     return (
-        <Button onClick={handleClick} isDisabled={isLoading} size={size}>
-            {isLoading ? (
-                <Spinner size={size} />
-            ) : (
-                <i className="fas fa-link" />
-            )}
-            &nbsp;{isLoading ? 'Generating...' : 'Copy Share Link'}
+        <Button
+            key={isLoading.toString()}
+            onClick={handleClick}
+            isLoading={isLoading}
+            loadingText="Generating..."
+            size={size}
+        >
+            <i className="fas fa-link" />
+            &nbsp;Copy Share Link
         </Button>
     );
 };
