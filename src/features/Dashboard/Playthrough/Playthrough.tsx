@@ -15,7 +15,7 @@ const Playthrough = ({
     return (
         <React.Fragment>
             {playthroughSpheres.map((step, i) => (
-                <Box key={i} paddingY="0.5em">
+                <Box key={i} paddingY={2}>
                     <ItemList
                         title={`Sphere ${step.sphere}`}
                         itemList={step.items}

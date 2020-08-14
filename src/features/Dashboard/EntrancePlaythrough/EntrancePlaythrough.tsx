@@ -15,7 +15,7 @@ const EntrancePlaythrough = ({
     return (
         <React.Fragment>
             {entranceSpheres.map((sphere, i) => (
-                <Box key={i} paddingY="0.5em">
+                <Box key={i} paddingY={2}>
                     <EntranceList
                         title={`Sphere ${sphere.sphere}`}
                         entranceList={sphere.entrances}

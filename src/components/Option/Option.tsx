@@ -57,9 +57,9 @@ const Option = ({ option, value }: OptionProps) => {
 
     return (
         <Stack
-            spacing="0.25em"
+            spacing={1}
             bg={bgColor[colorMode]}
-            padding="0.5em"
+            padding={2}
             borderRadius={5}
             borderColor={borderColor[colorMode]}
             borderWidth={1}

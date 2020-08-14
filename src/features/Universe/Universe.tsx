@@ -21,7 +21,7 @@ const Universe = ({ spoilerLogs, onReset }: UniverseProps) => {
                     </Tab>
                 ))}
             </TabList>
-            <TabPanels paddingY="0.5em">
+            <TabPanels paddingY={2}>
                 {spoilerLogs.map((spoilerLog, i) => (
                     <TabPanel key={`panel-${spoilerLog.world}`}>
                         {tabIndex === i && (

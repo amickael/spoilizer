@@ -77,6 +77,8 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
             key={isLoading.toString()}
             onClick={handleClick}
             isLoading={isLoading}
+            _hover={{ color: 'white', backgroundColor: 'blue.600' }}
+            _active={{ color: 'white', backgroundColor: 'blue.700' }}
             loadingText="Generating..."
             size={size}
         >

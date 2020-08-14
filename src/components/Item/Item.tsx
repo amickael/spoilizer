@@ -62,9 +62,9 @@ const Item = ({
 
     return (
         <Stack
-            spacing="0.25em"
+            spacing={1}
             bg={bgColor[colorMode]}
-            padding="0.5em"
+            padding={2}
             borderRadius={5}
             borderColor={borderColor[colorMode]}
             borderWidth={1}
@@ -83,7 +83,7 @@ const Item = ({
             </Box>
             <Stack isInline>
                 {!!player && !isHidden && (
-                    <Badge variantColor="blue" marginRight="0.5em">
+                    <Badge variantColor="blue" marginRight={2}>
                         <i className="fas fa-user" />
                         &nbsp;Player {player}
                     </Badge>
@@ -95,7 +95,7 @@ const Item = ({
                         placement="top"
                         hasArrow
                     >
-                        <Badge variantColor="green" marginRight="0.5em">
+                        <Badge variantColor="green" marginRight={2}>
                             <i className="fas fa-gem" />
                             &nbsp;{price}
                         </Badge>

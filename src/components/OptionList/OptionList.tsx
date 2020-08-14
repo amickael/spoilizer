@@ -35,7 +35,7 @@ const OptionList = ({ optionList }: OptionListProps) => {
             {options.length && (
                 <React.Fragment>
                     <Divider />
-                    <Heading size="md" marginBottom="0.25em">
+                    <Heading size="md" marginBottom={1}>
                         Options
                     </Heading>
                     <Grid
@@ -57,7 +57,7 @@ const OptionList = ({ optionList }: OptionListProps) => {
             {selections.length && (
                 <React.Fragment>
                     <Divider />
-                    <Heading size="md" marginBottom="0.25em">
+                    <Heading size="md" marginBottom={1}>
                         Selections
                     </Heading>
                     <Grid

@@ -95,9 +95,9 @@ const Upload = ({
             <Link
                 href="https://wiki.ootrandomizer.com/index.php?title=Frequently_Asked_Questions#How_Do_I_Find_My_Spoiler_Log_Again.3F"
                 isExternal
-                marginTop="1em"
+                marginTop={4}
             >
-                Where do I find this? <Icon name="external-link" mx="2px" />
+                Where do I find this? <Icon name="external-link" mx={1} />
             </Link>
         </Stack>
     );

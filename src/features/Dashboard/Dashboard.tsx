@@ -9,8 +9,7 @@ import {
     Tab,
     TabPanels,
     TabPanel,
-    Switch,
-    FormLabel,
+    Icon,
     useColorMode,
 } from '@chakra-ui/core';
 import { useMediaQuery } from 'react-responsive';
@@ -45,6 +44,8 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
             width={['35%', 'inherit']}
             marginTop={[3, 0]}
             backgroundColor="red.600"
+            _hover={{ backgroundColor: 'red.700' }}
+            _active={{ backgroundColor: 'red.800' }}
             color="white"
             alignSelf={isMobile ? 'center' : undefined}
         >
@@ -59,17 +60,34 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                 width="100%"
                 justify="space-between"
                 align="center"
-                padding="0.5em"
+                padding={2}
                 bg={bgColor[colorMode]}
                 borderRadius={5}
             >
-                <Flex align="center" marginLeft="0.5em">
-                    <FormLabel htmlFor="hide-spoilers">Hide spoilers</FormLabel>
-                    <Switch
-                        id="hide-spoilers"
-                        isChecked={hideSpoilers}
-                        onChange={() => dispatch(toggleSpoilers())}
-                    />
+                <Flex align="center" marginLeft={2}>
+                    <Button
+                        aria-label="toggle spoilers"
+                        onClick={() => dispatch(toggleSpoilers())}
+                        _hover={{
+                            color: 'white',
+                            backgroundColor: hideSpoilers
+                                ? 'red.600'
+                                : 'green.600',
+                        }}
+                        _active={{
+                            color: 'white',
+                            backgroundColor: hideSpoilers
+                                ? 'red.700'
+                                : 'green.700',
+                        }}
+                    >
+                        <Icon
+                            name={hideSpoilers ? 'view' : 'view-off'}
+                            fontSize={20}
+                            marginRight={2}
+                        />
+                        {hideSpoilers ? 'Show' : 'Hide'} Spoilers
+                    </Button>
                 </Flex>
                 <Flex
                     maxWidth={isMobile ? '50%' : undefined}
@@ -81,7 +99,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
             </Flex>
             <Flex
                 padding={[1, 3]}
-                marginTop="1em"
+                marginTop={4}
                 width="100%"
                 borderRadius={5}
                 bg={bgColor[colorMode]}

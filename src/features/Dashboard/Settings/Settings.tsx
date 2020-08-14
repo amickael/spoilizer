@@ -78,7 +78,7 @@ const Settings = ({ settings }: SettingsProps) => {
                             />
                             <Button
                                 onClick={handleDownload}
-                                marginTop="0.5em"
+                                marginTop={2}
                                 aria-label="download raw"
                                 width={['100%', 250]}
                                 alignSelf="flex-end"
