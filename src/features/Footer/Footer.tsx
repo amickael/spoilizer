@@ -6,7 +6,7 @@ const Footer = () => {
 
     return (
         <Stack
-            paddingY="1em"
+            paddingY={3}
             align="center"
             justify="flex-end"
             width="100%"

@@ -6,6 +6,7 @@ import { Grid, Heading, Stack, Divider } from '@chakra-ui/core';
 import sortBy from 'lodash/sortBy';
 import startCase from 'lodash/startCase';
 import { Settings } from '../../types/Settings';
+import { useMediaQuery } from 'react-responsive';
 
 interface OptionListProps {
     optionList: Settings;
@@ -21,7 +22,8 @@ const OptionList = ({ optionList }: OptionListProps) => {
         ),
         [filteredData, setFilteredData] = useState(sortedData),
         options = filteredData.filter((item) => !Array.isArray(item.value)),
-        selections = filteredData.filter((item) => Array.isArray(item.value));
+        selections = filteredData.filter((item) => Array.isArray(item.value)),
+        isMobile = useMediaQuery({ maxDeviceWidth: 640 });
 
     return (
         <Stack width="100%" spacing={2}>
@@ -37,7 +39,9 @@ const OptionList = ({ optionList }: OptionListProps) => {
                         Options
                     </Heading>
                     <Grid
-                        templateColumns="repeat(auto-fill, minmax(400px, 1fr))"
+                        templateColumns={`repeat(auto-fill, minmax(${
+                            isMobile ? '1fr' : '400px'
+                        }, 1fr))`}
                         gap={2}
                     >
                         {options.map((item) => (
@@ -57,7 +61,9 @@ const OptionList = ({ optionList }: OptionListProps) => {
                         Selections
                     </Heading>
                     <Grid
-                        templateColumns="repeat(auto-fill, minmax(350px, 1fr))"
+                        templateColumns={`repeat(auto-fill, minmax(${
+                            isMobile ? '1fr' : '350px'
+                        }, 1fr))`}
                         gap={2}
                     >
                         {selections.map((item) => (
