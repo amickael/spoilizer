@@ -1,15 +1,5 @@
 import React, { useState, useRef } from 'react';
-import {
-    Button,
-    Spinner,
-    Icon,
-    Link,
-    Stack,
-    Switch,
-    FormLabel,
-    Flex,
-    Text,
-} from '@chakra-ui/core';
+import { Button, Spinner, Icon, Link, Stack, Text } from '@chakra-ui/core';
 import { parseLog, parseMultiLog } from '../../utils/parseLog';
 import { SpoilerLog } from '../../types/SpoilerLog';
 
@@ -25,8 +15,7 @@ const Upload = ({
     onError = () => null,
 }: UploadProps) => {
     const inputRef = useRef<HTMLInputElement>(null),
-        [isLoading, setIsLoading] = useState(false),
-        [isMultiworld, setIsMultiworld] = useState(false);
+        [isLoading, setIsLoading] = useState(false);
 
     const handleClick = () => {
             ((inputRef.current as unknown) as HTMLElement).click();
@@ -40,7 +29,8 @@ const Upload = ({
             reader.onload = () => {
                 try {
                     const rawLog = reader?.result?.toString() ?? '',
-                        result = JSON.parse(rawLog);
+                        result = JSON.parse(rawLog),
+                        isMultiworld = (result?.settings?.world_count ?? 0) > 1;
                     localStorage.setItem('rawLog', rawLog);
                     if (isMultiworld) {
                         parseMultiLog(result).then(onSuccess).catch(onError);
@@ -61,25 +51,12 @@ const Upload = ({
             <Stack align="center" justify="center">
                 <Spinner size="xl" thickness="3px" />
                 <Text>Processing...</Text>
-                {isMultiworld && (
-                    <Text fontSize="sm">
-                        Multi-world logs may take longer to process
-                    </Text>
-                )}
             </Stack>
         );
     }
 
     return (
         <Stack align="center">
-            <Flex justify="center" align="center">
-                <FormLabel htmlFor="is-multiworld">Multi-World Seed</FormLabel>
-                <Switch
-                    id="is-multiworld"
-                    isChecked={isMultiworld}
-                    onChange={() => setIsMultiworld(!isMultiworld)}
-                />
-            </Flex>
             <input
                 ref={inputRef}
                 type="file"
