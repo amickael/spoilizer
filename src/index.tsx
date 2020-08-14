@@ -7,6 +7,7 @@ import {
     CSSReset,
 } from '@chakra-ui/core';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { store } from './provider';
 import App from './App';
 import { Footer } from './features';
@@ -14,17 +15,19 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <ThemeProvider>
-                <ColorModeProvider>
-                    <CSSReset />
-                    <Stack minHeight="100vh" justify="space-between">
-                        <App />
-                        <Footer />
-                    </Stack>
-                </ColorModeProvider>
-            </ThemeProvider>
-        </Provider>
+        <BrowserRouter>
+            <Provider store={store}>
+                <ThemeProvider>
+                    <ColorModeProvider>
+                        <CSSReset />
+                        <Stack minHeight="100vh" justify="space-between">
+                            <App />
+                            <Footer />
+                        </Stack>
+                    </ColorModeProvider>
+                </ThemeProvider>
+            </Provider>
+        </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );

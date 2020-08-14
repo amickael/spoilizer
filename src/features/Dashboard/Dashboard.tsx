@@ -4,8 +4,6 @@ import {
     Flex,
     Button,
     Text,
-    Code,
-    Stack,
     Tabs,
     TabList,
     Tab,
@@ -23,6 +21,7 @@ import { EntrancePlaythrough } from './EntrancePlaythrough';
 import { Settings } from './Settings';
 import { SpoilerLog } from '../../types/SpoilerLog';
 import { RootState } from '../../provider/store';
+import { ShareButton } from '../../components/ShareButton';
 import { toggleSpoilers } from '../../provider/appReducer';
 
 interface DashboardProps {
@@ -34,7 +33,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
     const { colorMode } = useColorMode(),
         bgColor = { dark: 'gray.700', light: 'gray.50' },
         [tabIndex, setTabIndex] = useState(0),
-        hideSpoilers = useSelector((state: RootState) => state.hideSpoilers),
+        { hideSpoilers } = useSelector((state: RootState) => state),
         dispatch = useDispatch();
 
     return (
@@ -47,28 +46,17 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                 bg={bgColor[colorMode]}
                 borderRadius={5}
             >
-                <Flex>
-                    <Stack spacing="0.25em" marginRight="0.5em">
-                        <Text>Seed</Text>
-                        <Code>{spoilerLog.seed}</Code>
-                    </Stack>
-                    <Stack spacing="0.25em">
-                        <Text>Settings</Text>
-                        <Code>{spoilerLog.settingsString}</Code>
-                    </Stack>
+                <Flex align="center" marginLeft="0.5em">
+                    <FormLabel htmlFor="hide-spoilers">Hide spoilers</FormLabel>
+                    <Switch
+                        id="hide-spoilers"
+                        isChecked={hideSpoilers}
+                        onChange={() => dispatch(toggleSpoilers())}
+                    />
                 </Flex>
                 <Flex>
-                    <Flex justify="center" align="center" marginRight="1em">
-                        <FormLabel htmlFor="hide-spoilers">
-                            Hide spoilers
-                        </FormLabel>
-                        <Switch
-                            id="hide-spoilers"
-                            isChecked={hideSpoilers}
-                            onChange={() => dispatch(toggleSpoilers())}
-                        />
-                    </Flex>
-                    <Button onClick={onReset}>
+                    <ShareButton />
+                    <Button onClick={onReset} marginLeft="0.5em">
                         <i className="fas fa-undo" />
                         &nbsp;Reset
                     </Button>
