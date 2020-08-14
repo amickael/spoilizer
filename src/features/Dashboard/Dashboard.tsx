@@ -66,6 +66,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
             >
                 <Flex align="center" marginLeft={2}>
                     <Button
+                        size={isMobile ? 'sm' : undefined}
                         aria-label="toggle spoilers"
                         onClick={() => dispatch(toggleSpoilers())}
                         _hover={{
@@ -83,8 +84,8 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     >
                         <Icon
                             name={hideSpoilers ? 'view' : 'view-off'}
-                            fontSize={20}
                             marginRight={2}
+                            fontSize={isMobile ? 15 : 20}
                         />
                         {hideSpoilers ? 'Show' : 'Hide'} Spoilers
                     </Button>
