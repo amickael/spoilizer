@@ -58,7 +58,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
         <Flex width="100%" direction="column">
             <Flex
                 width="100%"
-                justify="space-between"
+                justify={isMobile ? 'space-evenly' : 'space-between'}
                 align="center"
                 padding={2}
                 bg={bgColor[colorMode]}
