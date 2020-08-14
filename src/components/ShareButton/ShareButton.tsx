@@ -23,6 +23,12 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
         }
     }, [hasCopied, toast]);
 
+    useEffect(() => {
+        if (shareLink && onCopy) {
+            onCopy();
+        }
+    }, [onCopy, shareLink]);
+
     const handleError = () => {
             toast({
                 title: "Couldn't generate sharing link",
@@ -38,7 +44,6 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
             const referral = localStorage.getItem('referral');
             if (referral) {
                 setShareLink(`${window.location.origin}/${referral}`);
-                onCopy?.();
             } else {
                 setIsLoading(true);
                 const spoilerLog = JSON.parse(
@@ -54,7 +59,6 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
                             setShareLink(
                                 `${window.location.origin}/${resp.data}`
                             );
-                            onCopy?.();
                         } else {
                             handleError();
                         }
