@@ -9,6 +9,7 @@ interface ShareButtonProps {
 const ShareButton = ({ size = undefined }: ShareButtonProps) => {
     const [isLoading, setIsLoading] = useState(false),
         [shareLink, setShareLink] = useState<string>(),
+        [shouldCopy, setShouldCopy] = useState(false),
         { onCopy, hasCopied } = useClipboard(shareLink),
         toast = useToast();
 
@@ -24,10 +25,11 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
     }, [hasCopied, toast]);
 
     useEffect(() => {
-        if (shareLink && onCopy) {
+        if (shouldCopy && onCopy) {
             onCopy();
+            setShouldCopy(false);
         }
-    }, [onCopy, shareLink]);
+    }, [onCopy, shouldCopy]);
 
     const handleError = () => {
             toast({
@@ -44,6 +46,7 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
             const referral = localStorage.getItem('referral');
             if (referral) {
                 setShareLink(`${window.location.origin}/${referral}`);
+                setShouldCopy(true);
             } else {
                 setIsLoading(true);
                 const spoilerLog = JSON.parse(
@@ -59,6 +62,7 @@ const ShareButton = ({ size = undefined }: ShareButtonProps) => {
                             setShareLink(
                                 `${window.location.origin}/${resp.data}`
                             );
+                            setShouldCopy(true);
                         } else {
                             handleError();
                         }
