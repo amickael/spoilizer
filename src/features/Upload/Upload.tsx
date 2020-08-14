@@ -1,7 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { Button, Spinner, Icon, Link, Stack, Text } from '@chakra-ui/core';
+import {
+    Button,
+    Spinner,
+    Icon,
+    Link,
+    Stack,
+    Text,
+    Image,
+} from '@chakra-ui/core';
 import { parseLog, parseMultiLog } from '../../utils/parseLog';
 import { SpoilerLog } from '../../types/SpoilerLog';
+import logoPng from '../../assets/logo.png';
 
 interface UploadProps {
     children?: string;
@@ -57,6 +66,7 @@ const Upload = ({
 
     return (
         <Stack align="center">
+            <Image src={logoPng} width="100%" maxWidth={640} />
             <input
                 ref={inputRef}
                 type="file"

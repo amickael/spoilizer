@@ -37,7 +37,7 @@ const Landing = () => {
                 align="center"
                 justify="center"
                 direction="column"
-                paddingTop="25vh"
+                paddingTop="5vh"
             >
                 <Upload
                     onSuccess={(spoilerLog) =>
