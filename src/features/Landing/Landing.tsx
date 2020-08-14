@@ -53,7 +53,7 @@ const Landing = () => {
 
     return (
         <ErrorBoundary FallbackComponent={Fallback} onReset={handleReset}>
-            <Flex padding="1em" direction="column">
+            <Flex padding={[2, 4]} direction="column">
                 {Array.isArray(spoilerLog) ? (
                     <Universe spoilerLogs={spoilerLog} onReset={handleReset} />
                 ) : (

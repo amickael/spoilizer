@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Flex,
-    Button,
-    Text,
-    useToast,
-    useColorMode,
-    useClipboard,
-} from '@chakra-ui/core';
+import { Button, useToast, useClipboard, IButton } from '@chakra-ui/core';
 import { postSpoilerLog } from '../../api/postSpoilerLog';
 
-const ShareButton = () => {
+interface ShareButtonProps {
+    size?: IButton['size'];
+}
+
+const ShareButton = ({ size = undefined }: ShareButtonProps) => {
     const [isLoading, setIsLoading] = useState(false),
         [shareLink, setShareLink] = useState<string>(),
-        [isHidden, setIsHidden] = useState(true),
-        { colorMode } = useColorMode(),
         { onCopy, hasCopied } = useClipboard(shareLink),
-        toast = useToast(),
-        bgColor = {
-            dark: 'gray.900',
-            light: 'gray.100',
-        },
-        borderColor = { dark: 'gray.600', light: 'gray.200' };
+        toast = useToast();
 
     useEffect(() => {
         if (hasCopied) {
@@ -32,13 +22,6 @@ const ShareButton = () => {
             });
         }
     }, [hasCopied, toast]);
-
-    useEffect(() => {
-        if (!isHidden) {
-            const timeout = setTimeout(() => setIsHidden(true), 15000);
-            return () => clearTimeout(timeout);
-        }
-    }, [isHidden]);
 
     const handleError = () => {
             toast({
@@ -55,7 +38,7 @@ const ShareButton = () => {
             const referral = localStorage.getItem('referral');
             if (referral) {
                 setShareLink(`${window.location.origin}/${referral}`);
-                setIsHidden(false);
+                onCopy?.();
             } else {
                 setIsLoading(true);
                 const spoilerLog = JSON.parse(
@@ -71,7 +54,7 @@ const ShareButton = () => {
                             setShareLink(
                                 `${window.location.origin}/${resp.data}`
                             );
-                            setIsHidden(false);
+                            onCopy?.();
                         } else {
                             handleError();
                         }
@@ -82,33 +65,16 @@ const ShareButton = () => {
         };
 
     return (
-        <React.Fragment>
-            <Flex
-                paddingX="0.5em"
-                bg={bgColor[colorMode]}
-                borderRadius={5}
-                borderColor={borderColor[colorMode]}
-                borderWidth={2}
-                align="center"
-                hidden={isHidden}
-                overflowY="auto"
-            >
-                <Text marginRight="5px" fontSize="sm" isTruncated>
-                    {shareLink}
-                </Text>
-                <Button size="xs" onClick={onCopy} aria-label="copy link">
-                    <i className="fas fa-clipboard" />
-                </Button>
-            </Flex>
-            <Button
-                onClick={handleClick}
-                isDisabled={isLoading}
-                hidden={!isHidden}
-            >
-                <i className="fas fa-link" />
-                &nbsp;Get Share Link
-            </Button>
-        </React.Fragment>
+        <Button
+            key={isLoading.toString()}
+            onClick={handleClick}
+            isLoading={isLoading}
+            loadingText="Generating..."
+            size={size}
+        >
+            <i className="fas fa-link" />
+            &nbsp;Copy Share Link
+        </Button>
     );
 };
 

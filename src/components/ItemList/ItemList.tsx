@@ -8,10 +8,13 @@ import {
     Box,
     Stack,
     Button,
+    ButtonGroup,
     Tag,
     Select,
+    Text,
     useColorMode,
 } from '@chakra-ui/core';
+import { useMediaQuery } from 'react-responsive';
 import sortBy from 'lodash/sortBy';
 import { Item as IItem } from '../../types/Item';
 
@@ -46,7 +49,8 @@ const ItemList = ({
         [pageSize, setPageSize] = useState(
             disablePagination ? sortedData.length : 50
         ),
-        searchKeys = hideSpoilers ? ['location'] : ['location', 'item'];
+        searchKeys = hideSpoilers ? ['location'] : ['location', 'item'],
+        isMobile = useMediaQuery({ maxDeviceWidth: 640 });
 
     const handlePageSizeChange = (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -67,14 +71,17 @@ const ItemList = ({
     return (
         <Flex direction="column" width="100%">
             <Flex
-                marginBottom="1em"
+                marginTop={[1, 0]}
+                marginBottom={[2, 3]}
                 width="100%"
                 justify="space-between"
                 align="center"
             >
-                <Heading size="lg">{title}</Heading>
+                <Heading size="lg" hidden={isMobile && !hideSearch}>
+                    {title}
+                </Heading>
                 {!hideSearch && (
-                    <Box width="35%">
+                    <Box width={['100%', '35%']}>
                         <Search
                             collection={sortedData}
                             keys={searchKeys}
@@ -84,7 +91,9 @@ const ItemList = ({
                 )}
             </Flex>
             <Grid
-                templateColumns="repeat(auto-fill, minmax(350px, 1fr))"
+                templateColumns={`repeat(auto-fill, minmax(${
+                    isMobile ? '1fr' : '350px'
+                }, 1fr))`}
                 gap={2}
             >
                 {windowedData.map((item) => (
@@ -98,7 +107,7 @@ const ItemList = ({
             {numPages > 1 && (
                 <Stack
                     isInline
-                    width="95%"
+                    width={['100%', '95%']}
                     position="sticky"
                     bottom={2}
                     marginTop="0.5em"
@@ -112,58 +121,78 @@ const ItemList = ({
                     alignSelf="center"
                     boxShadow="0 3px 5px rgba(0,0,0,0.15)"
                 >
-                    <Box>
-                        <Select
-                            size="sm"
-                            value={pageSize}
-                            onChange={handlePageSizeChange}
-                            aria-label="select page size"
+                    {!isMobile && (
+                        <Box>
+                            <Select
+                                size="sm"
+                                value={pageSize}
+                                onChange={handlePageSizeChange}
+                                aria-label="select page size"
+                            >
+                                {pageSizeOptions.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option} items per page
+                                    </option>
+                                ))}
+                            </Select>
+                        </Box>
+                    )}
+                    {!isMobile && (
+                        <Tag size="sm">
+                            Page {currentPage + 1} of {numPages}
+                        </Tag>
+                    )}
+                    <Stack
+                        isInline
+                        width={isMobile ? '100%' : undefined}
+                        justify={isMobile ? 'space-between' : undefined}
+                        align="center"
+                    >
+                        <ButtonGroup
+                            size={isMobile ? undefined : 'sm'}
+                            isAttached
                         >
-                            {pageSizeOptions.map((option) => (
-                                <option key={option} value={option}>
-                                    {option} items per page
-                                </option>
-                            ))}
-                        </Select>
-                    </Box>
-                    <Tag size="sm">
-                        Page {currentPage + 1} of {numPages}
-                    </Tag>
-                    <Stack isInline>
-                        <Button
-                            size="sm"
-                            isDisabled={currentPage === 0}
-                            onClick={() => setCurrentPage(0)}
-                            aria-label="first page"
+                            <Button
+                                isDisabled={currentPage === 0}
+                                onClick={() => setCurrentPage(0)}
+                                aria-label="first page"
+                            >
+                                <i className="fas fa-angle-double-left" />
+                            </Button>
+                            <Button
+                                isDisabled={currentPage === 0}
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                aria-label="previous page"
+                            >
+                                <i className="fas fa-angle-left" />
+                                &nbsp;Back
+                            </Button>
+                        </ButtonGroup>
+                        {isMobile && (
+                            <Text fontSize="sm">
+                                {currentPage + 1} / {numPages}
+                            </Text>
+                        )}
+                        <ButtonGroup
+                            size={isMobile ? undefined : 'sm'}
+                            isAttached
                         >
-                            <i className="fas fa-angle-double-left" />
-                        </Button>
-                        <Button
-                            size="sm"
-                            isDisabled={currentPage === 0}
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            aria-label="previous page"
-                        >
-                            <i className="fas fa-angle-left" />
-                            &nbsp;Back
-                        </Button>
-                        <Button
-                            size="sm"
-                            isDisabled={currentPage + 1 === numPages}
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            aria-label="next page"
-                        >
-                            Next&nbsp;
-                            <i className="fas fa-angle-right" />
-                        </Button>
-                        <Button
-                            size="sm"
-                            isDisabled={currentPage + 1 === numPages}
-                            onClick={() => setCurrentPage(numPages - 1)}
-                            aria-label="last page"
-                        >
-                            <i className="fas fa-angle-double-right" />
-                        </Button>
+                            <Button
+                                isDisabled={currentPage + 1 === numPages}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                aria-label="next page"
+                            >
+                                Next&nbsp;
+                                <i className="fas fa-angle-right" />
+                            </Button>
+                            <Button
+                                isDisabled={currentPage + 1 === numPages}
+                                onClick={() => setCurrentPage(numPages - 1)}
+                                aria-label="last page"
+                            >
+                                <i className="fas fa-angle-double-right" />
+                            </Button>
+                        </ButtonGroup>
                     </Stack>
                 </Stack>
             )}

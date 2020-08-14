@@ -13,6 +13,7 @@ import {
     FormLabel,
     useColorMode,
 } from '@chakra-ui/core';
+import { useMediaQuery } from 'react-responsive';
 import { AllItems } from './AllItems';
 import { WayOfTheHero } from './WayOfTheHero';
 import { Playthrough } from './Playthrough';
@@ -34,7 +35,23 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
         bgColor = { dark: 'gray.700', light: 'gray.50' },
         [tabIndex, setTabIndex] = useState(0),
         { hideSpoilers } = useSelector((state: RootState) => state),
+        isMobile = useMediaQuery({ maxDeviceWidth: 640 }),
         dispatch = useDispatch();
+
+    const resetButton = (
+        <Button
+            onClick={onReset}
+            marginLeft={[0, 3]}
+            width={['35%', 'inherit']}
+            marginTop={[3, 0]}
+            backgroundColor="red.600"
+            color="white"
+            alignSelf={isMobile ? 'center' : undefined}
+        >
+            <i className="fas fa-undo" />
+            &nbsp;Reset
+        </Button>
+    );
 
     return (
         <Flex width="100%" direction="column">
@@ -54,38 +71,51 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                         onChange={() => dispatch(toggleSpoilers())}
                     />
                 </Flex>
-                <Flex>
-                    <ShareButton />
-                    <Button onClick={onReset} marginLeft="0.5em">
-                        <i className="fas fa-undo" />
-                        &nbsp;Reset
-                    </Button>
+                <Flex
+                    maxWidth={isMobile ? '50%' : undefined}
+                    overflowX={isMobile ? 'auto' : undefined}
+                >
+                    <ShareButton size={isMobile ? 'sm' : undefined} />
+                    {!isMobile && resetButton}
                 </Flex>
             </Flex>
             <Flex
-                padding="0.5em"
+                padding={[1, 3]}
                 marginTop="1em"
                 width="100%"
                 borderRadius={5}
                 bg={bgColor[colorMode]}
             >
                 <Tabs width="100%" onChange={setTabIndex}>
-                    <TabList>
+                    <TabList
+                        width="100%"
+                        overflowX="auto"
+                        paddingBottom={1}
+                        overflowY="hidden"
+                    >
                         <Tab>
                             <i className="fas fa-flask-potion" />
-                            <Text marginLeft={2}>All Items</Text>
+                            <Text marginLeft={2} isTruncated>
+                                All Items
+                            </Text>
                         </Tab>
                         <Tab hidden={!(spoilerLog?.woth ?? []).length}>
                             <i className="fas fa-sword" />
-                            <Text marginLeft={2}>Way of the Hero</Text>
+                            <Text marginLeft={2} isTruncated>
+                                Way of the Hero
+                            </Text>
                         </Tab>
                         <Tab hidden={!(spoilerLog?.playthrough ?? []).length}>
                             <i className="fas fa-scroll-old" />
-                            <Text marginLeft={2}>Playthrough</Text>
+                            <Text marginLeft={2} isTruncated>
+                                Playthrough
+                            </Text>
                         </Tab>
                         <Tab hidden={!(spoilerLog?.entrances ?? []).length}>
                             <i className="fas fa-dungeon" />
-                            <Text marginLeft={2}>Entrances</Text>
+                            <Text marginLeft={2} isTruncated>
+                                Entrances
+                            </Text>
                         </Tab>
                         <Tab
                             hidden={
@@ -93,14 +123,18 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                             }
                         >
                             <i className="fas fa-map-signs" />
-                            <Text marginLeft={2}>Entrance Playthrough</Text>
+                            <Text marginLeft={2} isTruncated>
+                                Entrance Playthrough
+                            </Text>
                         </Tab>
                         <Tab>
                             <i className="fas fa-sliders-h" />
-                            <Text marginLeft={2}>Settings</Text>
+                            <Text marginLeft={2} isTruncated>
+                                Settings
+                            </Text>
                         </Tab>
                     </TabList>
-                    <TabPanels padding="0.5em">
+                    <TabPanels padding={[1, 3]}>
                         <TabPanel>
                             {tabIndex === 0 && (
                                 <AllItems
@@ -155,6 +189,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     </TabPanels>
                 </Tabs>
             </Flex>
+            {isMobile && resetButton}
         </Flex>
     );
 };

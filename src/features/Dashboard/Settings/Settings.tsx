@@ -52,7 +52,7 @@ const Settings = ({ settings }: SettingsProps) => {
                     <Text marginLeft={2}>Raw JSON</Text>
                 </Tab>
             </TabList>
-            <TabPanels padding="0.5em">
+            <TabPanels padding={1}>
                 <TabPanel>
                     {tabIndex === 0 && (
                         <Stack>
@@ -76,25 +76,16 @@ const Settings = ({ settings }: SettingsProps) => {
                                     overflowY: 'auto',
                                 }}
                             />
-                            <Stack
-                                isInline
-                                justify="space-between"
-                                align="center"
+                            <Button
+                                onClick={handleDownload}
+                                marginTop="0.5em"
+                                aria-label="download raw"
+                                width={['100%', 250]}
+                                alignSelf="flex-end"
                             >
-                                <Text fontSize="sm">
-                                    Note: Multi-world logs may become slow if
-                                    too many nodes are expanded.
-                                </Text>
-                                <Button
-                                    onClick={handleDownload}
-                                    marginTop="0.5em"
-                                    aria-label="download raw"
-                                    width={150}
-                                >
-                                    <i className="fas fa-download" />
-                                    &nbsp; Download
-                                </Button>
-                            </Stack>
+                                <i className="fas fa-download" />
+                                &nbsp; Download
+                            </Button>
                         </Stack>
                     )}
                 </TabPanel>
