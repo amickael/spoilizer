@@ -13,7 +13,7 @@ const Universe = ({ spoilerLogs, onReset }: UniverseProps) => {
 
     return (
         <Tabs width="100%" onChange={setTabIndex}>
-            <TabList overflowX="auto" paddingBottom={1} overflowY="hidden">
+            <TabList overflowX="auto" paddingY={1} overflowY="hidden">
                 {spoilerLogs.map((spoilerLog) => (
                     <Tab key={`tab-${spoilerLog.world}`}>
                         <i className="fas fa-globe" />

@@ -90,7 +90,7 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                     <TabList
                         width="100%"
                         overflowX="auto"
-                        paddingBottom={1}
+                        paddingY={1}
                         overflowY="hidden"
                     >
                         <Tab>
