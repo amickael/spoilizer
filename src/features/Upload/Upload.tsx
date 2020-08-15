@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/core';
 import { parseLog, parseMultiLog } from '../../utils/parseLog';
 import { SpoilerLog } from '../../types/SpoilerLog';
+import logoWebp from '../../assets/logo.webp';
 import logoPng from '../../assets/logo.png';
 
 interface UploadProps {
@@ -66,7 +67,12 @@ const Upload = ({
 
     return (
         <Stack align="center">
-            <Image src={logoPng} width="100%" maxWidth={640} />
+            <Image
+                src={logoWebp}
+                fallbackSrc={logoPng}
+                width="100%"
+                maxWidth={640}
+            />
             <input
                 ref={inputRef}
                 type="file"
