@@ -36,8 +36,8 @@ const ItemList = ({
 }: ItemListProps) => {
     const { colorMode } = useColorMode(),
         bgColor = {
-            dark: 'gray.800',
-            light: 'gray.200',
+            dark: 'gray.700',
+            light: 'gray.50',
         },
         borderColor = { dark: 'gray.600', light: 'gray.300' },
         sortedData = sortBy(itemList, 'location'),
@@ -109,7 +109,7 @@ const ItemList = ({
                     isInline
                     width={['100%', '95%']}
                     position="sticky"
-                    bottom={2}
+                    bottom={4}
                     marginTop={2}
                     justify="space-between"
                     align="center"
@@ -119,7 +119,7 @@ const ItemList = ({
                     padding={1}
                     borderRadius={5}
                     alignSelf="center"
-                    boxShadow="0 3px 5px rgba(0,0,0,0.15)"
+                    boxShadow="0 5px 5px rgba(0,0,0,0.15)"
                 >
                     {!isMobile && (
                         <Box>

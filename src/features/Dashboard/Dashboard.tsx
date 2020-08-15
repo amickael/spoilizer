@@ -32,6 +32,7 @@ interface DashboardProps {
 const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
     const { colorMode } = useColorMode(),
         bgColor = { dark: 'gray.700', light: 'gray.50' },
+        borderColor = { dark: 'gray.600', light: 'gray.300' },
         [tabIndex, setTabIndex] = useState(0),
         { hideSpoilers } = useSelector((state: RootState) => state),
         isMobile = useMediaQuery({ maxDeviceWidth: 640 }),
@@ -60,11 +61,17 @@ const Dashboard = ({ spoilerLog, onReset }: DashboardProps) => {
                 width="100%"
                 justify={isMobile ? 'space-evenly' : 'space-between'}
                 align="center"
-                padding={2}
+                padding={1}
                 bg={bgColor[colorMode]}
+                borderColor={borderColor[colorMode]}
+                borderWidth={2}
                 borderRadius={5}
+                position="sticky"
+                top={2}
+                zIndex={999}
+                boxShadow="0 5px 5px rgba(0,0,0,0.15)"
             >
-                <Flex align="center" marginLeft={2}>
+                <Flex align="center">
                     <Button
                         size={isMobile ? 'sm' : undefined}
                         aria-label="toggle spoilers"
