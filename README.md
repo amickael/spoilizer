@@ -1,4 +1,4 @@
-![banner](https://repository-images.githubusercontent.com/286146479/ad377080-dce3-11ea-9fce-a944bb24828a)
+![banner](https://spoilizer.com/static/media/logo.9d15d8c0.webp)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/67e7d7ad-e338-40f3-aabd-bc718aae5204/deploy-status)](https://app.netlify.com/sites/spoilizer/deploys)
 [![GitHub issues](https://img.shields.io/github/issues/amickael/spoilizer?color=red)](https://github.com/amickael/spoilizer/issues)
