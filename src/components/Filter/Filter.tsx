@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { Flex, Button } from '@chakra-ui/core';
 import Fuse from 'fuse.js';
 
@@ -34,8 +33,6 @@ const Filter = ({ onSearch, collection }: FilterProps) => {
         { name: "Ganon's Castle", query: ['Ganons Castle'] },
     ];
     const songQuery = ['song', 'sheik'];
-
-    const isMobile = useMediaQuery({ maxDeviceWidth: 640 });
 
     const [query, setQuery] = useState(''),
         serializedCollection = JSON.stringify(collection),
