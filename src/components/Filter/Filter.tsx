@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Flex, Button } from '@chakra-ui/core';
+import Fuse from 'fuse.js';
 
-const Filter = () => {
+export interface FilterProps {
+    collection: unknown[];
+    onSearch: (results: any[]) => void;
+}
+
+const Filter = ({ onSearch, collection }: FilterProps) => {
     const areaList = [
         { name: 'HF/LLR', query: ['HF', 'LLR'] },
         { name: 'Castle/Market', query: ['Market', 'ToT', 'HC', 'OGC'] },
@@ -23,11 +29,47 @@ const Filter = () => {
         { name: 'BotW', query: ['Bottom of the Well'] },
         { name: 'Shadow', query: ['Bongo Bongo', 'Shadow Temple'] },
         { name: 'GTG', query: ['Gerudo Training Ground'] },
-        // { name: 'Spirit Child', query: ['Spirit Temple Child'] },
         { name: 'Spirit', query: ['Twinrova', 'Spirit Temple'] },
         { name: "Ganon's Castle", query: ['Ganons Castle'] },
     ];
     const songQuery = ['song', 'sheik'];
+
+    const [query, setQuery] = useState(''),
+        serializedCollection = JSON.stringify(collection),
+        fuse = useMemo(
+            () =>
+                new Fuse(collection, {
+                    useExtendedSearch: true,
+                    keys: ['location'],
+                    threshold: 0.25,
+                }),
+            [collection]
+        ),
+        searchResult = useMemo(
+            () =>
+                JSON.stringify(fuse.search(query).map((result) => result.item)),
+            [fuse, query]
+        );
+
+    useEffect(() => {
+        onSearch(
+            !!query
+                ? JSON.parse(searchResult)
+                : JSON.parse(serializedCollection)
+        );
+    }, [onSearch, searchResult, serializedCollection, query]);
+
+    const loopQuery = (queries: string[]) => {
+        let searchString = '';
+        queries.forEach((e, i) => {
+            if (i === 0) {
+                searchString = `^${e}`;
+            } else {
+                searchString = `${searchString} | ^${e}`;
+            }
+        });
+        setQuery(searchString);
+    };
 
     return (
         <Flex
@@ -45,7 +87,7 @@ const Filter = () => {
                         <Button
                             key={e.name}
                             onClick={() => {
-                                console.log(e.query);
+                                loopQuery(e.query);
                             }}
                         >
                             {e.name}
@@ -56,12 +98,27 @@ const Filter = () => {
             <Flex align="center">
                 Dungeons:
                 {dungeonList.map((e) => {
-                    return <Button key={e.name}>{e.name}</Button>;
+                    return (
+                        <Button
+                            key={e.name}
+                            onClick={() => {
+                                loopQuery(e.query);
+                            }}
+                        >
+                            {e.name}
+                        </Button>
+                    );
                 })}
             </Flex>
             <Flex align="center">
                 Songs:
-                <Button>Songs</Button>
+                <Button
+                    onClick={() => {
+                        loopQuery(songQuery);
+                    }}
+                >
+                    Songs
+                </Button>
             </Flex>
         </Flex>
     );

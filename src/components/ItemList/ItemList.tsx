@@ -91,7 +91,7 @@ const ItemList = ({
                     </Box>
                 )}
             </Flex>
-            <Filter/>
+            <Filter collection={sortedData} onSearch={setFilteredData}/>
             <Grid
                 templateColumns={`repeat(auto-fill, minmax(${
                     isMobile ? '1fr' : '350px'
