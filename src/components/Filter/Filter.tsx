@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { Flex, Button } from '@chakra-ui/core';
 import Fuse from 'fuse.js';
 
@@ -33,6 +34,8 @@ const Filter = ({ onSearch, collection }: FilterProps) => {
         { name: "Ganon's Castle", query: ['Ganons Castle'] },
     ];
     const songQuery = ['song', 'sheik'];
+
+    const isMobile = useMediaQuery({ maxDeviceWidth: 640 });
 
     const [query, setQuery] = useState(''),
         serializedCollection = JSON.stringify(collection),
@@ -71,53 +74,92 @@ const Filter = ({ onSearch, collection }: FilterProps) => {
         setQuery(searchString);
     };
 
+    const handleClick = (queries: string[]) => {
+        if (query.startsWith(`^${queries[0]}`)) {
+            setQuery('');
+        } else {
+            loopQuery(queries);
+        }
+    };
+
     return (
         <Flex
             marginTop={[1, 0]}
             marginBottom={[2, 3]}
             width="100%"
-            align="center"
             direction="column"
-            justify="start"
         >
-            <Flex align="center">
-                Areas:
-                {areaList.map((e) => {
-                    return (
-                        <Button
-                            key={e.name}
-                            onClick={() => {
-                                loopQuery(e.query);
-                            }}
-                        >
-                            {e.name}
-                        </Button>
-                    );
-                })}
+            <Flex wrap="wrap" direction="column">
+                <b>Areas</b>
+
+                <Flex marginTop={[1, 1]} wrap="wrap">
+                    {areaList.map((e) => {
+                        return (
+                            <Button
+                                marginRight={[2, 2]}
+                                marginBottom={[2, 2]}
+                                _hover={{
+                                    color: 'white',
+                                    backgroundColor: 'blue.600',
+                                }}
+                                _active={{
+                                    color: 'white',
+                                    backgroundColor: 'blue.700',
+                                }}
+                                key={e.name}
+                                onClick={() => {
+                                    handleClick(e.query);
+                                }}
+                            >
+                                {e.name}
+                            </Button>
+                        );
+                    })}
+                </Flex>
             </Flex>
-            <Flex align="center">
-                Dungeons:
-                {dungeonList.map((e) => {
-                    return (
-                        <Button
-                            key={e.name}
-                            onClick={() => {
-                                loopQuery(e.query);
-                            }}
-                        >
-                            {e.name}
-                        </Button>
-                    );
-                })}
+            <Flex wrap="wrap" direction="column">
+                <b>Dungeons</b>
+                <Flex marginTop={[1, 1]} wrap="wrap">
+                    {dungeonList.map((e) => {
+                        return (
+                            <Button
+                                marginRight={[2, 2]}
+                                marginBottom={[2, 2]}
+                                _hover={{
+                                    color: 'white',
+                                    backgroundColor: 'blue.600',
+                                }}
+                                _active={{
+                                    color: 'white',
+                                    backgroundColor: 'blue.700',
+                                }}
+                                key={e.name}
+                                onClick={() => {
+                                    handleClick(e.query);
+                                }}
+                            >
+                                {e.name}
+                            </Button>
+                        );
+                    })}
+                </Flex>
             </Flex>
-            <Flex align="center">
-                Songs:
+            <Flex direction="column" align="start">
                 <Button
+                    marginTop={[4, 4]}
+                    _hover={{
+                        color: 'white',
+                        backgroundColor: 'blue.600',
+                    }}
+                    _active={{
+                        color: 'white',
+                        backgroundColor: 'blue.700',
+                    }}
                     onClick={() => {
-                        loopQuery(songQuery);
+                        handleClick(songQuery);
                     }}
                 >
-                    Songs
+                    <b>Songs</b>
                 </Button>
             </Flex>
         </Flex>

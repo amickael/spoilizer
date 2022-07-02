@@ -17,12 +17,13 @@ import {
 import { useMediaQuery } from 'react-responsive';
 import sortBy from 'lodash/sortBy';
 import { Item as IItem } from '../../types/Item';
-import { Filter } from "../Filter"
+import { Filter } from '../Filter';
 
 interface ItemListProps {
     title?: string;
     itemList: IItem[];
     hideSearch?: boolean;
+    hideFilter?: boolean;
     disablePagination?: boolean;
     hideSpoilers?: boolean;
 }
@@ -32,6 +33,7 @@ const ItemList = ({
     title = 'Items',
     itemList,
     hideSearch = false,
+    hideFilter = false,
     disablePagination = false,
     hideSpoilers = false,
 }: ItemListProps) => {
@@ -91,7 +93,9 @@ const ItemList = ({
                     </Box>
                 )}
             </Flex>
-            <Filter collection={sortedData} onSearch={setFilteredData}/>
+            {!hideFilter && (
+                <Filter collection={sortedData} onSearch={setFilteredData} />
+            )}
             <Grid
                 templateColumns={`repeat(auto-fill, minmax(${
                     isMobile ? '1fr' : '350px'
