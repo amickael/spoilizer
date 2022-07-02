@@ -17,6 +17,7 @@ import {
 import { useMediaQuery } from 'react-responsive';
 import sortBy from 'lodash/sortBy';
 import { Item as IItem } from '../../types/Item';
+import { Filter } from "../Filter"
 
 interface ItemListProps {
     title?: string;
@@ -90,6 +91,7 @@ const ItemList = ({
                     </Box>
                 )}
             </Flex>
+            <Filter/>
             <Grid
                 templateColumns={`repeat(auto-fill, minmax(${
                     isMobile ? '1fr' : '350px'
