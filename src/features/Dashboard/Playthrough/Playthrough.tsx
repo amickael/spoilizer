@@ -20,6 +20,7 @@ const Playthrough = ({
                         title={`Sphere ${step.sphere}`}
                         itemList={step.items}
                         hideSearch
+                        hideFilter
                         disablePagination
                         hideSpoilers={hideSpoilers}
                     />

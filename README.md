@@ -1,3 +1,10 @@
+# Modified version of Spoilizer
+## https://spoilizer.vercel.app/
+I just added location based filters for the items so you can show checks for a specific area in the game.
+
+## Original README.md below
+
+
 ![banner](https://spoilizer.com/static/media/logo.9d15d8c0.webp)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/67e7d7ad-e338-40f3-aabd-bc718aae5204/deploy-status)](https://app.netlify.com/sites/spoilizer/deploys)
